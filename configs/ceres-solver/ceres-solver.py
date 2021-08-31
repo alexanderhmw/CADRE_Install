@@ -1,7 +1,7 @@
 from MakeIt import ConfigFunc
 
 name = "ceres-solver"
-version_list = [0, 3, 17]
+version_list = [2, 0, 0]
 
 config ={
     "name": name,
@@ -33,7 +33,7 @@ config ={
         'make': ['-j8']
     },
     "ldpath": ['/opt/ceres-solver/lib'],
-    "dependencies": ["eigen", "OpenBLAS", "SuiteSparse"]
+    "dependencies": ["eigen3", "OpenBLAS", "SuiteSparse"]
 }
 
 ConfigFunc.export_config_json(__file__, config)

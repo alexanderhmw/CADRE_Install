@@ -1,21 +1,24 @@
-[submodule "gits/eigen"]
-	path = gits/eigen
-	url = https://gitlab.com/libeigen/eigen.git
-[submodule "gits/OpenBLAS"]
-	path = gits/OpenBLAS
-	url = https://github.com/xianyi/OpenBLAS.git
-[submodule "gits/opencv_contrib"]
-	path = gits/opencv_contrib
-	url = https://github.com/opencv/opencv_contrib.git
-[submodule "gits/libjpeg-turbo"]
-	path = gits/libjpeg-turbo
-	url = https://github.com/libjpeg-turbo/libjpeg-turbo.git
-[submodule "gits/eigen_3_4_0"]
-	path = gits/eigen_3_4_0
-	url = https://gitlab.com/libeigen/eigen.git
 [submodule "gits/OpenBLAS_0_3_17"]
 	path = gits/OpenBLAS_0_3_17
 	url = https://github.com/xianyi/OpenBLAS.git
 [submodule "gits/libjpeg-turbo_2_1_1"]
 	path = gits/libjpeg-turbo_2_1_1
 	url = https://github.com/libjpeg-turbo/libjpeg-turbo.git
+[submodule "gits/eigen3_3_4_0"]
+	path = gits/eigen3_3_4_0
+	url = https://gitlab.com/libeigen/eigen.git
+[submodule "gits/SuiteSparse_5_10_1"]
+	path = gits/SuiteSparse_5_10_1
+	url = https://github.com/DrTimothyAldenDavis/SuiteSparse.git
+[submodule "gits/ceres-solver_2_0_0"]
+	path = gits/ceres-solver_2_0_0
+	url = https://github.com/ceres-solver/ceres-solver.git
+[submodule "gits/OpenCV3_3_4_15"]
+	path = gits/OpenCV3_3_4_15
+	url = https://github.com/opencv/opencv.git
+[submodule "gits/OpenCV3_contrib_3_4_15"]
+	path = gits/OpenCV3_contrib_3_4_15
+	url = https://github.com/opencv/opencv_contrib.git
+[submodule "gits/g2o_20201223"]
+	path = gits/g2o_20201223
+	url = https://github.com/RainerKuemmerle/g2o.git

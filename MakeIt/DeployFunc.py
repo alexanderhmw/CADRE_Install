@@ -417,7 +417,7 @@ def makeit(name, version, apt=None, git=None, pkg=None, params=None, ldpath=None
                         os.chdir(root)
                         makeit_status[name] = False
                         return False
-    elif pkg is not None and pkg.get('url') is not None or pkg.get('file') is not None:
+    elif pkg is not None and (pkg.get('url') is not None or pkg.get('file') is not None):
         if not pkgSource(pkg_path, full_name, pkg.get('url'), pkg.get('file'), pkg.get('type'), pkg.get('patch'), pkg.get('precmds'), pkg.get('postcmds')):
             os.chdir(root)
             print(Fore.RED + full_name + ' pkgSource error' + Fore.WHITE)
@@ -435,11 +435,6 @@ def makeit(name, version, apt=None, git=None, pkg=None, params=None, ldpath=None
                         os.chdir(root)
                         makeit_status[name] = False
                         return False
-    else:
-        os.chdir(root)
-        print(Fore.RED + full_name + 'Neither git nor pkg is defined' + Fore.WHITE)
-        makeit_status[name] = False
-        return False
 
     if ldpath is not None and len(ldpath) > 0:
         runOsCmd('sudo echo {} > /etc/ld.so.conf.d/{}.conf'.format(':'.join(ldpath), full_name))
@@ -504,39 +499,3 @@ def printMakeLog(details=False):
             if details:
                 for log in error_log[name]:
                     print(Fore.WHITE + log)
-
-
-def getQTDIR():
-    return '/' + '/'.join(str(subprocess.check_output(['qmake', '--version'], shell=False)).split('/')[1:-1])
-
-
-print('QTDIR=' + getQTDIR())
-
-
-def getQTCPPPATH(QtFilter=None):
-    QTDIR = getQTDIR()
-    QTCPPPATH = []
-    QTCPPPATH.append(os.path.join(QTDIR, "include"))
-    ret = os.listdir(os.path.join(QTDIR, "include"))
-    if QtFilter is not None:
-        ret = [r for r in ret if r in QtFilter]
-    ret = [os.path.join(QTDIR, "include", r) for r in ret]
-    ret = [r for r in ret if os.path.isdir(r)]
-    QTCPPPATH.extend(ret)
-    return filterPATH(QTCPPPATH)
-
-
-def getQTLIBPATH():
-    QTDIR = getQTDIR()
-    return filterPATH([os.path.join(QTDIR, "lib")])
-
-
-def getQTLIBS(QtFilter=None):
-    QTLIBPATH = getQTLIBPATH()[0]
-    ret = os.listdir(QTLIBPATH)
-    ret = [r for r in ret if not os.path.isdir(os.path.join(QTLIBPATH, r))]
-    ret = [r for r in ret if r.endswith(".so") and r.startswith("libQt5")]
-    ret = [r[3:-3] for r in ret]
-    if QtFilter is not None:
-        ret = [r for r in ret if r in QtFilter]
-    return ret

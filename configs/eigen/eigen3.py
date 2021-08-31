@@ -1,6 +1,6 @@
 from MakeIt import ConfigFunc
 
-name = "eigen"
+name = "eigen3"
 version_list = [3, 4, 0]
 
 config = {
@@ -9,7 +9,7 @@ config = {
     "git": {
         'url': 'https://gitlab.com/libeigen/eigen.git',
         'branch': ConfigFunc.version_str(version_list, "."),
-        'patch': ConfigFunc.to_absolute_path(["./eigen.patch"])
+        'patch': ConfigFunc.to_absolute_path(["./eigen3.patch"])
     },
     "params": {
         'src': '.',

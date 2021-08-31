@@ -1,7 +1,7 @@
 from MakeIt import ConfigFunc
 
-name = "cuda"
-version_list = [11]
+name = "cuda11"
+version_list = [11, 4]
 
 config = {
     "name": name,
@@ -13,7 +13,7 @@ config = {
                      'sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub',
                      'sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"',
                      'sudo apt-get update',
-                     'sudo apt-get install cuda-11-1 cuda-11-2 cuda-11-4 -y']
+                     'sudo apt-get install cuda-{} -y'.format(ConfigFunc.version_str(version_list, "-"))]
     },
     "ldpath": ['/usr/local/cuda'],
     "postcmds": {

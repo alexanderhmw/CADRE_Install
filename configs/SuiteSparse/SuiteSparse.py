@@ -7,7 +7,7 @@ config = {
     "name": name,
     "version": ConfigFunc.version_str(version_list, "_"),
     "apt": {
-        'pkgs': ['libblas-dev', 'liblapack-dev'],
+        'pkgs': ['libblas-dev', 'liblapack-dev', 'libgmp3-dev', 'libmpc-dev'],
         'remove' : ['libopenblas-dev', 'libopenblas-base']
     },
     "git": {
@@ -17,11 +17,11 @@ config = {
     },
     "params": {
         'src': '.',
-        'make': ['library', 'CUDA_PATH=/usr/local/cuda', 'BLAS=/opt/OpenBLAS/lib/libopenblas.so', '-j8'],
-        'install': ['INSTALL=/opt/SuiteSparse', 'CUDA_PATH=/usr/local/cuda', 'BLAS=/opt/OpenBLAS/lib/libopenblas.so']
+        'make': ['library', 'CUDA_PATH=/usr/local/cuda', 'BLAS=/opt/OpenBLAS/lib/libopenblas.so', 'LAPACK=-llapack', '-j8'],
+        'install': ['INSTALL=/opt/SuiteSparse', 'CUDA_PATH=/usr/local/cuda', 'BLAS=/opt/OpenBLAS/lib/libopenblas.so', 'LAPACK=-llapack']
     },
     "ldpath": ['/opt/SuiteSparse/lib'],
-    "dependencies": ["OpenBLAS", "cuda"]
+    "dependencies": ["OpenBLAS", "cuda11"]
 }
 
 ConfigFunc.export_config_json(__file__, config)

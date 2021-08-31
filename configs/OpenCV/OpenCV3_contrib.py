@@ -1,7 +1,7 @@
 from MakeIt import ConfigFunc
 
-name = "opencv_contrib"
-version_list = [3, 4, 7]
+name = "OpenCV3_contrib"
+version_list = [3, 4, 15]
 
 config = {
     "name": name,

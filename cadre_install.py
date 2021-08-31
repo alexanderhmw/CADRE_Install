@@ -24,6 +24,7 @@ if __name__ == "__main__":
 
     # run arcgis.py files to generate new config json files
     for makeit_file in makeit_list:
+        print(makeit_file)
         runpy.run_path(makeit_file)
 
     # collect with new config json files
@@ -60,8 +61,12 @@ if __name__ == "__main__":
                         config_json_failed_queue.append(config_json)
 
             config_json_failed_queue_size = len(config_json_failed_queue)
-            config_json_queue = config_json_failed_queue
+            print(config_json_queue_size, config_json_failed_queue_size)
+            print(config_json_queue, config_json_failed_queue)
+
+            config_json_queue = config_json_failed_queue.copy()
             config_json_failed_queue.clear()
+
     except KeyboardInterrupt:
         pass
     DeployFunc.printMakeLog(True)

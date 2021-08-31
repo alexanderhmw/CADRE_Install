@@ -1,0 +1,13 @@
+--- eigen/CMakeLists.txt	2020-09-19 20:05:26.887876508 -0400
++++ eigen/CMakeLists.txt_bk	2020-09-19 20:05:21.151766938 -0400
+@@ -2,6 +2,10 @@
+ 
+ cmake_minimum_required(VERSION 2.8.5)
+ 
++if(POLICY CMP0057)
++cmake_policy(SET CMP0057 NEW)
++endif()
++
+ # guard against in-source builds
+ 
+ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})

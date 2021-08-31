@@ -1,0 +1,38 @@
+diff -Naur SuiteSparse/GPUQREngine/Lib/Makefile SuiteSparse_updated/GPUQREngine/Lib/Makefile
+--- SuiteSparse/GPUQREngine/Lib/Makefile	2020-02-17 10:49:38.617250961 -0500
++++ SuiteSparse_updated/GPUQREngine/Lib/Makefile	2020-02-17 10:50:45.809177000 -0500
+@@ -48,7 +48,7 @@
+        GPUQREngine_UberKernel.o
+ 
+ INC  = -I../../SuiteSparse_GPURuntime/Include -I../Include \
+-    -I../../SuiteSparse_config
++    -I../../SuiteSparse_config $(CUDA_INC)
+ 
+ # general include file dependencies
+ H =   ../Include/GPUQREngine_Common.hpp                       \
+diff -Naur SuiteSparse/SuiteSparse_config/SuiteSparse_config.mk SuiteSparse_updated/SuiteSparse_config/SuiteSparse_config.mk
+--- SuiteSparse/SuiteSparse_config/SuiteSparse_config.mk	2020-02-17 10:47:09.641417813 -0500
++++ SuiteSparse_updated/SuiteSparse_config/SuiteSparse_config.mk	2020-02-17 14:13:06.896457370 -0500
+@@ -212,7 +212,9 @@
+     CUDA = auto
+ 
+     ifneq ($(CUDA),no)
+-        CUDA_PATH = $(shell which nvcc 2>/dev/null | sed "s/\/bin\/nvcc//")
++		ifeq ($(CUDA_PATH),)
++			CUDA_PATH = $(shell which nvcc 2>/dev/null | sed "s/\/bin\/nvcc//")
++		endif
+     endif
+ 
+     ifeq ($(wildcard $(CUDA_PATH)),)
+diff -Naur SuiteSparse/SuiteSparse_GPURuntime/Lib/Makefile SuiteSparse_updated/SuiteSparse_GPURuntime/Lib/Makefile
+--- SuiteSparse/SuiteSparse_GPURuntime/Lib/Makefile	2020-02-17 10:49:38.617250961 -0500
++++ SuiteSparse_updated/SuiteSparse_GPURuntime/Lib/Makefile	2020-02-17 10:51:57.753099000 -0500
+@@ -22,7 +22,7 @@
+        SuiteSparseGPU_Workspace_gpuAllocators.o       \
+        SuiteSparseGPU_Workspace_transfer.o
+ 
+-INC = -I../Include -I../../SuiteSparse_config
++INC = -I../Include -I../../SuiteSparse_config $(CUDA_INC)
+ 
+ H = \
+         ../Include/SuiteSparseGPU_Workspace.hpp \
