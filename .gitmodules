@@ -1,0 +1,21 @@
+[submodule "gits/eigen"]
+	path = gits/eigen
+	url = https://gitlab.com/libeigen/eigen.git
+[submodule "gits/OpenBLAS"]
+	path = gits/OpenBLAS
+	url = https://github.com/xianyi/OpenBLAS.git
+[submodule "gits/opencv_contrib"]
+	path = gits/opencv_contrib
+	url = https://github.com/opencv/opencv_contrib.git
+[submodule "gits/libjpeg-turbo"]
+	path = gits/libjpeg-turbo
+	url = https://github.com/libjpeg-turbo/libjpeg-turbo.git
+[submodule "gits/eigen_3_4_0"]
+	path = gits/eigen_3_4_0
+	url = https://gitlab.com/libeigen/eigen.git
+[submodule "gits/OpenBLAS_0_3_17"]
+	path = gits/OpenBLAS_0_3_17
+	url = https://github.com/xianyi/OpenBLAS.git
+[submodule "gits/libjpeg-turbo_2_1_1"]
+	path = gits/libjpeg-turbo_2_1_1
+	url = https://github.com/libjpeg-turbo/libjpeg-turbo.git
