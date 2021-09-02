@@ -13,7 +13,7 @@ config = {
     "git": {
         'url': 'https://github.com/DrTimothyAldenDavis/SuiteSparse.git',
         'branch': 'v{}'.format(ConfigFunc.version_str(version_list, ".")),
-        'patch': ConfigFunc.to_absolute_path(["./SuiteSparse.patch"])
+        # 'patch': ConfigFunc.to_absolute_path(["SuiteSparse.patch"], ConfigFunc.resolve_file_path(__file__))
     },
     "params": {
         'src': '.',

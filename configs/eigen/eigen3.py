@@ -9,7 +9,7 @@ config = {
     "git": {
         'url': 'https://gitlab.com/libeigen/eigen.git',
         'branch': ConfigFunc.version_str(version_list, "."),
-        'patch': ConfigFunc.to_absolute_path(["./eigen3.patch"])
+        # 'patch': ConfigFunc.to_absolute_path(["eigen3.patch"], ConfigFunc.resolve_file_path(__file__))
     },
     "params": {
         'src': '.',

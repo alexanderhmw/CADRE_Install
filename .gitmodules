@@ -22,3 +22,6 @@
 [submodule "gits/g2o_20201223"]
 	path = gits/g2o_20201223
 	url = https://github.com/RainerKuemmerle/g2o.git
+[submodule "gits/LLVM_12_0_1"]
+	path = gits/LLVM_12_0_1
+	url = https://github.com/llvm/llvm-project.git

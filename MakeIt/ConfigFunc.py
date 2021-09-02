@@ -16,18 +16,22 @@ def name_version_str(name, version_list):
     return "{}_{}".format(name, version_str(version_list, "_"))
 
 
+def resolve_file_path(file):
+    return pathlib.Path(file).parent.resolve()
+
+
 def export_config_json(file, config):
-    filename = os.path.join(pathlib.Path(file).parent.resolve(), "{}_{}.json".format(config["name"], config["version"]))
+    filename = os.path.join(resolve_file_path(file), "{}_{}.json".format(config["name"], config["version"]))
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, "w") as f:
         json.dump(config, f, sort_keys=True, indent=2)
 
 
-def to_absolute_path(files):
+def to_absolute_path(files, dir="./"):
     if type(files) == list:
-        return [os.path.abspath(file) for file in files]
+        return [os.path.abspath(os.path.join(dir, file)) for file in files]
     elif type(files) == str:
-        return os.path.abspath(files)
+        return os.path.abspath(os.path.join(dir, files))
 
 
 def filterPATH(PATH):

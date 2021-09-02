@@ -31,7 +31,7 @@ CADRE_Install does not provide Qt5 installation since it requires user account a
 2. Install Prerequisite Packages
    ```
    cd CADRE_Install
-   sudo apt-get install python3 python3-dev python3-pip
+   **sudo apt-get install python3 python3-dev python3-pip**
    sudo pip install -r requirements.txt
    ```
 3. Install CADRE 3rd-Party Packages (It may take a long time)

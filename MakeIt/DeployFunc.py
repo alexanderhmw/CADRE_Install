@@ -215,11 +215,14 @@ def pkgSource(root, name, url, file, type_name, patch, precmds, postcmds):
     if not runOsCmds(precmds):
         return False
 
-    is_in_repo = runOsCmd('git rev-parse --is-inside-work-tree')
+    # is_in_repo = runOsCmd('git rev-parse --is-inside-work-tree')
     if file is None:
         pkg_path = os.path.abspath(os.path.join(root, name + '.' + type_name))
     else:
-        pkg_path = os.path.abspath(os.path.join(root, file))
+        if os.path.isfile(file):
+            pkg_path = file
+        else:
+            pkg_path = os.path.abspath(os.path.join(root, file))
 
     print(Fore.BLUE + pkg_path + Fore.WHITE)
     if not os.path.exists(pkg_path):
@@ -228,7 +231,7 @@ def pkgSource(root, name, url, file, type_name, patch, precmds, postcmds):
         else:
             wget.download(url, pkg_path)
 
-    if ['tar', 'gz', 'tar.gz', 'bz2', 'xz', 'zip'].count(type_name) > 0:
+    if ['tar', 'gz', 'tar.gz', 'bz2', 'tar.xz', 'xz', 'zip'].count(type_name) > 0:
         if not os.path.exists(source_path) and type_name is not None:
             if os.path.exists(pkg_path):
                 if type_name == 'tar':
@@ -243,7 +246,7 @@ def pkgSource(root, name, url, file, type_name, patch, precmds, postcmds):
                     tar = tarfile.open(pkg_path, 'r:bz2')
                     tar.extractall(path=source_path)
                     tar.close()
-                elif type_name == 'xz':
+                elif type_name == 'xz' or type_name == 'tar.xz':
                     tar = tarfile.open(pkg_path, 'r:xz')
                     tar.extractall(path=source_path)
                     tar.close()
