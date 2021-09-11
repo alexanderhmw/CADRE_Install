@@ -26,7 +26,7 @@ CADRE_Install does not provide Qt5 installation since it requires user account a
 ## Install CADRE Packages
 1. Clone CADRE_Install 
    ```
-   git clone **https://github.com/alexanderhmw/CADRE_Install.git**
+   git clone https://github.com/alexanderhmw/CADRE_Install.git
    ```
 2. Install Prerequisite Packages
    ```
