@@ -25,3 +25,6 @@
 [submodule "gits/LLVM_12_0_1"]
 	path = gits/LLVM_12_0_1
 	url = https://github.com/llvm/llvm-project.git
+[submodule "gits/harfbuzz_2_9_1"]
+	path = gits/harfbuzz_2_9_1
+	url = https://github.com/harfbuzz/harfbuzz.git

@@ -34,7 +34,7 @@ config = {
         'make': ['-j8']
     },
     "ldpath": ['/opt/OpenCV/lib'],
-    "dependencies": ["OpenCV3_contrib", "ceres-solver", "eigen3", "libjpeg-turbo", "OpenBLAS", "cuda11"]
+    "dependencies": ["OpenCV3_contrib", "Qt", "ceres-solver", "eigen3", "libjpeg-turbo", "OpenBLAS", "cuda11"]
 }
 
 ConfigFunc.export_config_json(__file__, config)
