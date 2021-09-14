@@ -13,7 +13,7 @@ config = {
     "ldpath": ['/opt/Qt/{}/gcc_64/lib'.format(ConfigFunc.version_str(version_list, "."))],
     "postcmds": [
         {'cmd': "qtchooser -install qt5-opt /opt/Qt/{}/gcc_64/bin/qmake".format(ConfigFunc.version_str(version_list, ".")), 'condition': "! (qtchooser -l | grep -q 'qt5-opt')"},
-        {'cmd': "echo \"export QT_SELECT=qt5-opt\" > ~/.bashrc", 'condition': '! grep -q "export QT_SELECT=qt5-opt" ~/.bashrc'},
+        {'cmd': "echo \"export QT_SELECT=qt5-opt\" >> ~/.bashrc", 'condition': '! grep -q "export QT_SELECT=qt5-opt" ~/.bashrc'},
     ]
 }
 

@@ -1,9 +1,9 @@
 from MakeIt import ConfigFunc
-from configs.cuda import cuda11
+from configs.essentials.cuda import cuda11
 
 name = "cudnn8"
 version_list = [8, 2, 2, 26]
-subverions = 1
+subversion = 1
 
 config = {
     "name": name,
@@ -12,8 +12,10 @@ config = {
         'url': 'https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu2004/x86_64/nvidia-machine-learning-repo-ubuntu2004_1.0.0-1_amd64.deb',
         'type': 'deb',
         'postcmds': ['sudo apt-get update',
-                     'sudo apt-get install libcudnn8={}-{}+cuda{} -y'.format(ConfigFunc.version_str(version_list, "."), subverions, ConfigFunc.version_str(cuda11.version_list, ".")),
-                     'sudo apt-get install libcudnn8-dev={}-{}+cuda{} -y'.format(ConfigFunc.version_str(version_list, "."), subverions, ConfigFunc.version_str(cuda11.version_list, "."))]
+                     'sudo apt-get install libcudnn8={}-{}+cuda{} -y'.format(ConfigFunc.version_str(version_list, "."), subversion, ConfigFunc.version_str(
+                         cuda11.version_list, ".")),
+                     'sudo apt-get install libcudnn8-dev={}-{}+cuda{} -y'.format(ConfigFunc.version_str(version_list, "."), subversion, ConfigFunc.version_str(
+                         cuda11.version_list, "."))]
     },
     "dependencies": ["cuda11"]
 }

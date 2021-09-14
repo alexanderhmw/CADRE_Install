@@ -16,10 +16,10 @@ config = {
                      'sudo apt-get install cuda-{} -y'.format(ConfigFunc.version_str(version_list, "-"))]
     },
     "ldpath": ['/usr/local/cuda'],
-    "postcmds": {
-        'cmd': 'echo "export CUDA_TOOLKIT_PATH=/usr/local/cuda" >> ~/.bashrc',
-        'condition': '! grep -q "export CUDA_TOOLKIT_PATH=/usr/local/cuda" ~/.bashrc'
-    }
+    "postcmds": [
+        {'cmd': 'echo "export CUDA_TOOLKIT_PATH=/usr/local/cuda" >> ~/.bashrc', 'condition': '! grep -q "export CUDA_TOOLKIT_PATH=/usr/local/cuda" ~/.bashrc'},
+        {'cmd' : 'echo \'export PATH=${PATH}:/usr/local/cuda/bin\' >> ~/.bashrc', 'condition' : '! grep -q \'export PATH=${PATH}:/usr/local/cuda/bin\' ~/.bashrc'},
+    ]
 }
 
 ConfigFunc.export_config_json(__file__, config)

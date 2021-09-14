@@ -28,3 +28,15 @@
 [submodule "gits/harfbuzz_2_9_1"]
 	path = gits/harfbuzz_2_9_1
 	url = https://github.com/harfbuzz/harfbuzz.git
+[submodule "gits/blitz_1_0_2"]
+	path = gits/blitz_1_0_2
+	url = https://github.com/blitzpp/blitz.git
+[submodule "gits/nmealib_0_6_5"]
+	path = gits/nmealib_0_6_5
+	url = https://github.com/Paulxia/nmealib.git
+[submodule "gits/nmealib_0_5_3"]
+	path = gits/nmealib_0_5_3
+	url = https://github.com/Paulxia/nmealib.git
+[submodule "gits/GPUJPEG_1_0_0"]
+	path = gits/GPUJPEG_1_0_0
+	url = https://github.com/CESNET/GPUJPEG.git

@@ -16,7 +16,7 @@ CADRE_Install does not provide Qt5 installation since it requires user account a
    ```
    sudo apt-get install qt5-default -y
    qtchooser -install qt5-opt /opt/Qt/5.x.x/gcc_64/bin/qmake
-   echo "export QT_SELECT=qt5-opt" > ~/.bashrc
+   echo "export QT_SELECT=qt5-opt" >> ~/.bashrc
    ```
 3. Check qmake version
    ```

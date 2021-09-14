@@ -1,5 +1,6 @@
 from MakeIt import ConfigFunc
-from configs.boost import boost
+from configs.essentials.boost import boost
+import os
 
 name = "COSMOSLibrary"
 version_list = [1, 0]
@@ -11,7 +12,7 @@ config = {
         'pkgs': ['libcurl4-openssl-dev']
     },
     "pkg": {
-        'file': ConfigFunc.to_absolute_path('COSMOSLibrary.tar.xz', ConfigFunc.resolve_file_path(__file__)),
+        'file': os.path.join(ConfigFunc.root_offline_pkgs, 'COSMOSLibrary/COSMOSLibrary.tar.xz'),
         'type': 'tar.xz'
     },
     "params": {

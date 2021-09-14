@@ -3,6 +3,12 @@ import os
 import pathlib
 import subprocess
 
+root = os.path.abspath(subprocess.check_output("git rev-parse --show-toplevel", shell=True).decode().strip())
+root_configs = os.path.join(root, 'configs')
+root_gits = os.path.join(root, 'gits')
+root_pkgs = os.path.join(root, 'pkgs')
+root_offline_pkgs = os.path.join(root, 'offline_pkgs')
+
 
 def version_str(version_list, sep, version_idx_num=0):
     version_str_list = [str(version) for version in version_list]

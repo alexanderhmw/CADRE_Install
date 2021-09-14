@@ -197,7 +197,7 @@ def gitSource(root, name, url, branch, patch, precmds, postcmds):
     if patch is not None and type(patch) == list:
         for patch_file in patch:
             if os.path.exists(patch_file):
-                os.chdir(root)
+                os.chdir(source_path)
                 if not runOsCmd('patch -p0 -N < {}'.format(patch_file), None,
                                 '! patch -R -p0 -s -f --dry-run < {}'.format(patch_file)):
                     return False
@@ -259,7 +259,7 @@ def pkgSource(root, name, url, file, type_name, patch, precmds, postcmds):
             if patch is not None and type(patch) == list:
                 for patch_file in patch:
                     if os.path.exists(patch_file):
-                        os.chdir(root)
+                        os.chdir(source_path)
                         if not runOsCmd('patch -p0 -N < {}'.format(patch_file), None,
                                         '! patch -R -p0 -s -f --dry-run < {}'.format(patch_file)):
                             return False
