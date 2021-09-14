@@ -1,0 +1,15 @@
+To port the simplecomms .deb to a new version of Ubuntu, go into src/.
+Add a line to src/debian/changelog in the correct format, indicating your
+change.  Use an incremented version number.
+Run 'scons' in src/
+ Fix any compile errors which will probably just be
+ some #include directives due to version change of gcc.
+
+Run 'make package' in src/.
+
+The resulting .deb will show up back in this directory.
+
+Some of the changes made by curmson in 
+http://www.cs.cmu.edu/~curmson/SimpleComms.tgz
+have been integrated into this version, namely the removed dependency
+on boost_program-options

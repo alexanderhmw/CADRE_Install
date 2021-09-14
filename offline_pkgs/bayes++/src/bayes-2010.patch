@@ -1,0 +1,19 @@
+*** Bayes++/BayesFilter/Jamfile	2010-08-15 14:09:52.000000000 -0400
+--- Jamfile	2011-08-24 17:07:03.681208950 -0400
+***************
+*** 17,23 ****
+  lib BayesFilter : $(CPP_SOURCES).cpp
+      : <link>static
+        <toolset>msvc:<define>"_SECURE_SCL_DEPRECATE=0"
+!       <toolset>gcc:<cxxflags>"-Wall"
+        <toolset>intel:<cxxflags>"-mp1"		# Require IEEE NaN comparisons
+  #    <toolset>gcc:<cxxflags>"-pedantic"		# Pedantic checks for validation with GCC (will include long long warnings)
+  ;
+--- 17,23 ----
+  lib BayesFilter : $(CPP_SOURCES).cpp
+      : <link>static
+        <toolset>msvc:<define>"_SECURE_SCL_DEPRECATE=0"
+!       <toolset>gcc:<cxxflags>"-Wall -fPIC"
+        <toolset>intel:<cxxflags>"-mp1"		# Require IEEE NaN comparisons
+  #    <toolset>gcc:<cxxflags>"-pedantic"		# Pedantic checks for validation with GCC (will include long long warnings)
+  ;

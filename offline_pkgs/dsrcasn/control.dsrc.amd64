@@ -1,0 +1,7 @@
+Package: dsrc
+Source: dsrc
+Version: 1.0
+Architecture: amd64
+Maintainer: Anand Bhat <anandbha@andrew.cmu.edu>
+Priority: optional
+Description: DSRC

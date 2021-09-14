@@ -1,0 +1,25 @@
+ipc (3.7.10-4) unstable; urgency=low
+
+  * Added tca.h to the package
+
+ -- Tugrul Galatali <tugrul@galatali.com>  Sat,  6 Jan 2007 13:47:12 -0500
+
+ipc (3.7.10-3) unstable; urgency=low
+
+  * Hacked fix to get around hang when calling IPC_setMsgQueueLength
+
+ -- Tugrul Galatali <tugrul@galatali.com>  Tue, 12 Dec 2006 19:21:02 -0500
+
+ipc (3.7.10-2) unstable; urgency=low
+
+  * Bumped tcp/unix domain socket buffers from 16/32KiB to 3MiB
+
+ -- Tugrul Galatali <tugrul@galatali.com>  Wed, 11 Oct 2006 13:23:26 -0400
+
+ipc (3.7.10-1) unstable; urgency=low
+
+  * Initial release 
+
+ -- Tugrul Galatali <tugrul@galatali.com>  Sun, 10 Sep 2006 20:03:21 -0400
+
+

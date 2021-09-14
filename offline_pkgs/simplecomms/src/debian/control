@@ -1,0 +1,12 @@
+Source: simplecomms
+Section: unknown
+Priority: optional
+Maintainer: Tugrul Galatali <tugrul@galatali.com>
+Build-Depends: debhelper (>= 4.0.0)
+Standards-Version: 3.6.2
+
+Package: simplecomms
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Tartan Racing inter-process communications
+ Tartan Racing inter-process communications library.

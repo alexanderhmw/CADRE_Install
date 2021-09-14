@@ -1,0 +1,9 @@
+Package: boost-1.43.0-1-local
+Source: boost
+Version: 1.43.0-1 
+Architecture: amd64
+Maintainer: Paul E. Rybski <prybski@cs.cmu.edu>
+Priority: optional
+Description: Boost 
+    Local installation of Boost 1.43.0 into /usr/local in a non-standard
+  place so that it can co-exist with the Ubuntu installation of boost.

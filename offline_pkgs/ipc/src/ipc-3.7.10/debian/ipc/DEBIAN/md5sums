@@ -1,0 +1,10 @@
+e072d8ff7a2f999668f6b22a2579bd7c  usr/bin/central
+0fe8615c433cd243a1878d62ca872b1a  usr/include/ipc/ipc.h
+4acea673b4b5e35b81ec13bc4ab68c22  usr/include/ipc/tca.h
+83ef3473e96b06ba432d973c8e056d0e  usr/lib/libipc.a
+090f5ce1d820ea308938ef92c92f5ea2  usr/lib/libipc.sa.3.7
+f8562c101ed509f5582cdcfee5af8684  usr/lib/libipc.so.3.7
+debdfcca913226c3a966362f0e44f21d  usr/share/doc/ipc/README
+2679565f7931fe2c0a3bfbc9c527a355  usr/share/doc/ipc/README.Debian
+c653817d9813aa684bd5159af409a1a7  usr/share/doc/ipc/changelog.Debian.gz
+4a98ecf6e542398979b3e0b0df720a26  usr/share/doc/ipc/copyright

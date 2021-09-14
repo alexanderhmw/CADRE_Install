@@ -1,0 +1,144 @@
+#############################################################################
+#       $Id: GNUmakefile,v 2.4 2002/06/25 21:20:56 reids Exp $
+# $Revision: 2.4 $
+#     $Date: 2002/06/25 21:20:56 $
+#   $Author: reids $
+#    $State: Exp $
+#   $Locker:  $
+#
+# PROJECT:	IPC
+#
+# FILE:		GNUmakefile
+#		Based on Erebus prototypical Makefile
+#		Makefile.proto,v 1.1 1992/06/16 22:50:21 jwest Exp 
+#
+# DESCRIPTION:
+# Makes the ipc libraries and central server, Lisp version and test program
+#
+# EXPORTS:
+#	The following targets are available as part of Makefile.std:
+#		all bins libs privs objs
+#		clean install
+#		lint depend
+#
+# HISTORY:
+#
+# $Log: GNUmakefile,v $
+# Revision 2.4  2002/06/25 21:20:56  reids
+# Don't make privs when doing gmake install
+#
+# Revision 2.3  2002/01/02 21:40:08  reids
+# Changed makefile so that java directory can be installed from top level.
+#
+# Revision 2.2  2001/06/01 18:49:37  reids
+# Make xdrgen from top level
+#
+# Revision 2.1.1.1  1999/11/23 19:07:32  reids
+# Putting IPC Version 2.9.0 under local (CMU) CVS control.
+#
+#############################################################################
+
+INSTALL_DIR	= $(DESTDIR)
+BASE_DIR	= $(shell /bin/pwd)
+MODULE_DIR	= 
+PROJECT		= ipc
+MODULE		= 
+SUBDIRS		= etc src
+
+#############################################################################
+# Where are the standard files?
+#############################################################################
+
+ifndef FAST_COMPILE
+PWD 	:= $(shell /bin/pwd)
+endif
+
+ifndef STD_FILE
+STD_FILE := $(shell ls $(BASE_DIR)/etc/GNUmakefile.std | grep -v "not found")
+ifeq ($(STD_FILE),)
+STD_FILE := $(PROJECT_DIR)/etc/GNUmakefile.std
+endif
+DEFS_FILE := $(shell ls $(BASE_DIR)/etc/GNUmakefile.defs | grep -v "not found")
+ifeq ($(DEFS_FILE),)
+DEFS_FILE := $(PROJECT_DIR)/etc/GNUmakefile.defs
+endif
+endif
+
+##########
+# Include standard definitions
+##########
+
+include $(DEFS_FILE)
+
+##########
+# Override defaults here.
+##########
+
+##########
+# File Definition Macros.  Deletion of generated files assumed
+#    to be o.k.  Source files will never be deleted.
+##########
+
+# Generated files - installed
+PUBLIC_BINS		= 
+PUBLIC_LIBS		= 
+PUBLIC_LINTS		= 
+
+MODULE_LIBS		= 
+MODULE_LINTS		= 
+
+# Source files - installed
+PUBLIC_INCS		= 
+PUBLIC_MANS		= 
+PUBLIC_DOCS		= 
+
+MODULE_INCS		= 
+MODULE_DOCS		= 
+
+INCS			= $(MODULE_INCS) $(PUBLIC_INCS)
+
+# Generated files - not installed
+PRIVS	= 
+
+OBJS	= 
+
+# Source files - not installed
+
+SRCS	= 
+
+PRIVATE_INCS	= 
+
+MISC		=  GNUmakefile README README.MAC
+
+##########
+# Default Target
+##########
+
+all:: srcs libs bins privs
+
+##########
+# User Defined Targets
+##########
+
+# Define rules for all files listed in BINS, LIBS, and LINTS in this section.
+# Example executable, object, library, and combined objects are shown below:
+#
+#  $(BDIR)/sample: file1.o file2.o $(LIBDEP)
+#	$(LINK.c) -o $@ file1.o file2.o $(LIBRARIES)
+#
+#  $(ODIR)/alternateName.o: file1.c
+#	$(COMPILE.c) -o $@ file1.c
+#
+#  $(LDIR)/libsample.a: file1.o file2.o
+#	-$(RM) $@
+#	$(AR) $(ARFLAGS) $@ file1.o file2.o
+#	$(RANLIB) $@
+#
+#  $(ODIR)/combined.o: $(ODIR)/part1.o $(ODIR)/part2.o
+#	$(LD) -r -o $@ $(ODIR)/part1.o $(ODIR)/part2.o; chmod a-x $@
+
+##########
+# Include standard target definitions and RCS rules
+##########
+
+include $(STD_FILE)

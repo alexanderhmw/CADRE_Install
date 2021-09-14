@@ -1,0 +1,53 @@
+#!/usr/bin/python
+import os;
+
+env = Environment();
+
+env.Append(CCFLAGS = [ '-Wall', 
+                       '-g', 
+                       '-O3', 
+                       '-I' + os.environ['UC_DIR'] + '/src/common' 
+                     ]
+          )
+env.Append(LIBPATH='/usr/local/lib')
+env.Append(RPATH='/usr/local/lib')
+env.Append(LINKFLAGS = [ '-pthread', 
+                         '-g', 
+                         '-O3', 
+                         '-L.', 
+                         '-L' + os.environ['UC_DIR'] + '/lib', 
+                         '-llog' 
+                       ]
+          )
+
+env.Program( 
+    target = 'scs',
+    source = [ 'ServerMain.cc', 
+               'Server.cc',
+               'ControlMessages.cc',
+               'BasePeer.cc', 
+               'UnixPeer.cc', 
+               'UdpPeer.cc', 
+               'TcpPeer.cc', 
+               'UdpDiscovery.cc', 
+               'NetworkIntfUtils.cc' 
+             ],
+    LIBS = [ 'log', 'z' ]
+)
+
+env.SharedLibrary(
+    target = 'SimpleComms',
+    source = [ 'UnixClient.cc' ],
+    LIBS = [ 'log', 'Monitor', 'z' ]
+)
+
+env.SharedLibrary(
+    target = 'Monitor',
+    source = [ 'Condition.cc', 'Monitor.cc' ]
+)
+
+env.Program( 
+    target = 'scc',
+    source = [ 'ClientMain.cc' ],
+    LIBS = [ 'log', 'Monitor', 'SimpleComms' ]
+)

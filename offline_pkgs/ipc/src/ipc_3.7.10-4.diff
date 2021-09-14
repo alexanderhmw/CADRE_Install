@@ -1,0 +1,1076 @@
+--- ipc-3.7.10.orig/etc/GNUmakefile.defs
++++ ipc-3.7.10/etc/GNUmakefile.defs
+@@ -166,7 +166,7 @@
+ # Release configuration.
+ #############################################################################
+ 
+-VERSION_DEF = $(INSTALL_DIR)/src/ipcPriv.h
++VERSION_DEF = $(BASE_DIR)/src/ipcPriv.h
+ IPC_VERSION_MAJOR := $(shell awk '/VERSION_MAJOR/ {print $$3}' $(VERSION_DEF) )
+ IPC_VERSION_MINOR := $(shell awk '/VERSION_MINOR/ {print $$3}' $(VERSION_DEF) )
+ IPC_VERSION_MICRO := $(shell awk '/VERSION_MICRO/ {print $$3}' $(VERSION_DEF) )
+@@ -198,9 +198,9 @@
+ # Standard directories
+ #############################################################################
+ 
+-PUBLIC_BIN_DIR		= $(INSTALL_DIR)/bin/$(THIS_OS_BOTH)
++PUBLIC_BIN_DIR		= $(INSTALL_DIR)/bin
+ PUBLIC_INC_DIR 		= $(INSTALL_DIR)/include
+-PUBLIC_LIB_DIR		= $(INSTALL_DIR)/lib/$(THIS_OS_BOTH)
++PUBLIC_LIB_DIR		= $(INSTALL_DIR)/lib
+ PUBLIC_LINT_DIR		= $(INSTALL_DIR)/lib/lint
+ PUBLIC_MAN_DIR		= $(INSTALL_DIR)/man/man
+ PUBLIC_DOC_DIR		= $(INSTALL_DIR)/doc
+@@ -370,7 +370,7 @@
+ 
+ LDFLAGS 	= $(LIB_PATH)
+ LIBS_DBMALLOC 	= -ldbmalloc
+-LIBS_Linux	=  -lbsd -lc
++LIBS_Linux	=  -lc
+ LIBS_Solaris	=  -lsocket -lnsl
+ LIBS_wnt	=  -lwsock32
+ LIBRARIES	= -lipc $(LIBS_$(DBMALLOC)) $(LIBS_$(THIS_OS))
+--- ipc-3.7.10.orig/debian/dirs
++++ ipc-3.7.10/debian/dirs
+@@ -0,0 +1,2 @@
++usr/bin
++usr/sbin
+--- ipc-3.7.10.orig/debian/docs
++++ ipc-3.7.10/debian/docs
+@@ -0,0 +1,1 @@
++README
+--- ipc-3.7.10.orig/debian/control
++++ ipc-3.7.10/debian/control
+@@ -0,0 +1,18 @@
++Source: ipc
++Section: contrib/devel
++Priority: optional
++Maintainer: Tugrul Galatali <tugrul@galatali.com>
++Build-Depends: debhelper (>= 5)
++Standards-Version: 3.7.2
++
++Package: ipc
++Architecture: any
++Depends: ${shlibs:Depends}, ${misc:Depends}
++Description: CMU IPC
++ gentoo is a file manager for Linux written from scratch in pure C. It
++ IPC provides flexible, efficient message passing between processes. It 
++ can transparently send and receive complex data structures, including 
++ lists and variable length arrays, using both anonymous "publish/sub-
++ scribe" and "client/server" message-passing paradigms.
++ .
++ http://www.cs.cmu.edu/~IPC/
+--- ipc-3.7.10.orig/debian/rules
++++ ipc-3.7.10/debian/rules
+@@ -0,0 +1,112 @@
++#!/usr/bin/make -f
++# -*- makefile -*-
++# Sample debian/rules that uses debhelper.
++# This file was originally written by Joey Hess and Craig Small.
++# As a special exception, when this file is copied by dh-make into a
++# dh-make output file, you may use that output file without restriction.
++# This special exception was added by Craig Small in version 0.37 of dh-make.
++
++# Uncomment this to turn on verbose mode.
++#export DH_VERBOSE=1
++
++
++
++
++CFLAGS = -Wall -g
++
++ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
++	CFLAGS += -O0
++else
++	CFLAGS += -O2
++endif
++
++configure: configure-stamp
++configure-stamp:
++	dh_testdir
++	# Add here commands to configure the package.
++
++	touch configure-stamp
++
++
++build: build-stamp
++
++build-stamp: configure-stamp 
++	dh_testdir
++
++	# Add here commands to compile the package.
++	$(MAKE) THREADED=1 MAKE_SHARED_LIBS=1
++	#docbook-to-man debian/ipc.sgml > ipc.1
++
++	touch $@
++
++clean:
++	dh_testdir
++	dh_testroot
++	rm -f build-stamp configure-stamp
++
++	# Add here commands to clean up after the build process.
++	-$(MAKE) clean
++
++	dh_clean 
++
++install: build
++	dh_testdir
++	dh_testroot
++	dh_clean -k 
++	dh_installdirs
++
++	# Add here commands to install the package into debian/ipc.
++	$(MAKE) THREADED=1 MAKE_SHARED_LIBS=1 install DESTDIR=$(CURDIR)/debian/ipc
++
++	mkdir -p $(CURDIR)/debian/ipc/usr/bin
++	mv -f $(CURDIR)/bin/central $(CURDIR)/debian/ipc/usr/bin
++
++	mkdir -p $(CURDIR)/debian/ipc/usr/lib
++	mv -f $(CURDIR)/lib/libipc.* $(CURDIR)/debian/ipc/usr/lib
++	ln -s libipc.so.3.7 $(CURDIR)/debian/ipc/usr/lib/libipc.so.3
++	ln -s libipc.so.3.7 $(CURDIR)/debian/ipc/usr/lib/libipc.so
++
++	mkdir -p $(CURDIR)/debian/ipc/usr/include/ipc
++	mv -f $(CURDIR)/include/ipc.h $(CURDIR)/debian/ipc/usr/include/ipc
++	cp $(CURDIR)/src/tca.h $(CURDIR)/debian/ipc/usr/include/ipc
++
++	rm -rf $(CURDIR)/debian/ipc/bin $(CURDIR)/debian/ipc/lib
++
++
++# Build architecture-independent files here.
++binary-indep: build install
++# We have nothing to do by default.
++
++# Build architecture-dependent files here.
++binary-arch: build install
++	dh_testdir
++	dh_testroot
++	dh_installchangelogs 
++	dh_installdocs
++	dh_installexamples
++#	dh_install
++#	dh_installmenu
++#	dh_installdebconf	
++#	dh_installlogrotate
++#	dh_installemacsen
++#	dh_installpam
++#	dh_installmime
++#	dh_python
++#	dh_installinit
++#	dh_installcron
++#	dh_installinfo
++	dh_installman
++	dh_link
++	dh_strip
++	dh_compress
++	dh_fixperms
++#	dh_perl
++#	dh_makeshlibs
++	dh_installdeb
++	dh_shlibdeps
++	dh_gencontrol
++	dh_md5sums
++	dh_builddeb
++
++binary: binary-indep binary-arch
++.PHONY: build clean binary-indep binary-arch binary install configure
+--- ipc-3.7.10.orig/debian/changelog
++++ ipc-3.7.10/debian/changelog
+@@ -0,0 +1,25 @@
++ipc (3.7.10-4) unstable; urgency=low
++
++  * Added tca.h to the package
++
++ -- Tugrul Galatali <tugrul@galatali.com>  Sat,  6 Jan 2007 13:47:12 -0500
++
++ipc (3.7.10-3) unstable; urgency=low
++
++  * Hacked fix to get around hang when calling IPC_setMsgQueueLength
++
++ -- Tugrul Galatali <tugrul@galatali.com>  Tue, 12 Dec 2006 19:21:02 -0500
++
++ipc (3.7.10-2) unstable; urgency=low
++
++  * Bumped tcp/unix domain socket buffers from 16/32KiB to 3MiB
++
++ -- Tugrul Galatali <tugrul@galatali.com>  Wed, 11 Oct 2006 13:23:26 -0400
++
++ipc (3.7.10-1) unstable; urgency=low
++
++  * Initial release 
++
++ -- Tugrul Galatali <tugrul@galatali.com>  Sun, 10 Sep 2006 20:03:21 -0400
++
++
+--- ipc-3.7.10.orig/debian/ipc-default.ex
++++ ipc-3.7.10/debian/ipc-default.ex
+@@ -0,0 +1,10 @@
++# Defaults for ipc initscript
++# sourced by /etc/init.d/ipc
++# installed at /etc/default/ipc by the maintainer scripts
++
++#
++# This is a POSIX shell fragment
++#
++
++# Additional options that are passed to the Daemon.
++DAEMON_OPTS=""
+--- ipc-3.7.10.orig/debian/cron.d.ex
++++ ipc-3.7.10/debian/cron.d.ex
+@@ -0,0 +1,4 @@
++#
++# Regular cron jobs for the ipc package
++#
++0 4	* * *	root	ipc_maintenance
+--- ipc-3.7.10.orig/debian/emacsen-install.ex
++++ ipc-3.7.10/debian/emacsen-install.ex
+@@ -0,0 +1,45 @@
++#! /bin/sh -e
++# /usr/lib/emacsen-common/packages/install/ipc
++
++# Written by Jim Van Zandt <jrv@debian.org>, borrowing heavily
++# from the install scripts for gettext by Santiago Vila
++# <sanvila@ctv.es> and octave by Dirk Eddelbuettel <edd@debian.org>.
++
++FLAVOR=$1
++PACKAGE=ipc
++
++if [ ${FLAVOR} = emacs ]; then exit 0; fi
++
++echo install/${PACKAGE}: Handling install for emacsen flavor ${FLAVOR}
++
++#FLAVORTEST=`echo $FLAVOR | cut -c-6`
++#if [ ${FLAVORTEST} = xemacs ] ; then
++#    SITEFLAG="-no-site-file"
++#else
++#    SITEFLAG="--no-site-file"
++#fi
++FLAGS="${SITEFLAG} -q -batch -l path.el -f batch-byte-compile"
++
++ELDIR=/usr/share/emacs/site-lisp/${PACKAGE}
++ELCDIR=/usr/share/${FLAVOR}/site-lisp/${PACKAGE}
++
++# Install-info-altdir does not actually exist. 
++# Maybe somebody will write it.
++if test -x /usr/sbin/install-info-altdir; then
++    echo install/${PACKAGE}: install Info links for ${FLAVOR}
++    install-info-altdir --quiet --section "" "" --dirname=${FLAVOR} /usr/info/${PACKAGE}.info.gz
++fi
++
++install -m 755 -d ${ELCDIR}
++cd ${ELDIR}
++FILES=`echo *.el`
++cp ${FILES} ${ELCDIR}
++cd ${ELCDIR}
++
++cat << EOF > path.el
++(setq load-path (cons "." load-path) byte-compile-warnings nil)
++EOF
++${FLAVOR} ${FLAGS} ${FILES}
++rm -f *.el path.el
++
++exit 0
+--- ipc-3.7.10.orig/debian/emacsen-remove.ex
++++ ipc-3.7.10/debian/emacsen-remove.ex
+@@ -0,0 +1,15 @@
++#!/bin/sh -e
++# /usr/lib/emacsen-common/packages/remove/ipc
++
++FLAVOR=$1
++PACKAGE=ipc
++
++if [ ${FLAVOR} != emacs ]; then
++    if test -x /usr/sbin/install-info-altdir; then
++        echo remove/${PACKAGE}: removing Info links for ${FLAVOR}
++        install-info-altdir --quiet --remove --dirname=${FLAVOR} /usr/info/ipc.info.gz
++    fi
++
++    echo remove/${PACKAGE}: purging byte-compiled files for ${FLAVOR}
++    rm -rf /usr/share/${FLAVOR}/site-lisp/${PACKAGE}
++fi
+--- ipc-3.7.10.orig/debian/menu.ex
++++ ipc-3.7.10/debian/menu.ex
+@@ -0,0 +1,2 @@
++?package(ipc):needs="X11|text|vc|wm" section="Apps/see-menu-manual"\
++  title="ipc" command="/usr/bin/ipc"
+--- ipc-3.7.10.orig/debian/init.d.ex
++++ ipc-3.7.10/debian/init.d.ex
+@@ -0,0 +1,74 @@
++#! /bin/sh
++#
++# skeleton	example file to build /etc/init.d/ scripts.
++#		This file should be used to construct scripts for /etc/init.d.
++#
++#		Written by Miquel van Smoorenburg <miquels@cistron.nl>.
++#		Modified for Debian 
++#		by Ian Murdock <imurdock@gnu.ai.mit.edu>.
++#
++# Version:	@(#)skeleton  1.9  26-Feb-2001  miquels@cistron.nl
++#
++
++PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
++DAEMON=/usr/sbin/ipc
++NAME=ipc
++DESC=ipc
++
++test -x $DAEMON || exit 0
++
++# Include ipc defaults if available
++if [ -f /etc/default/ipc ] ; then
++	. /etc/default/ipc
++fi
++
++set -e
++
++case "$1" in
++  start)
++	echo -n "Starting $DESC: "
++	start-stop-daemon --start --quiet --pidfile /var/run/$NAME.pid \
++		--exec $DAEMON -- $DAEMON_OPTS
++	echo "$NAME."
++	;;
++  stop)
++	echo -n "Stopping $DESC: "
++	start-stop-daemon --stop --quiet --pidfile /var/run/$NAME.pid \
++		--exec $DAEMON
++	echo "$NAME."
++	;;
++  #reload)
++	#
++	#	If the daemon can reload its config files on the fly
++	#	for example by sending it SIGHUP, do it here.
++	#
++	#	If the daemon responds to changes in its config file
++	#	directly anyway, make this a do-nothing entry.
++	#
++	# echo "Reloading $DESC configuration files."
++	# start-stop-daemon --stop --signal 1 --quiet --pidfile \
++	#	/var/run/$NAME.pid --exec $DAEMON
++  #;;
++  restart|force-reload)
++	#
++	#	If the "reload" option is implemented, move the "force-reload"
++	#	option to the "reload" entry above. If not, "force-reload" is
++	#	just the same as "restart".
++	#
++	echo -n "Restarting $DESC: "
++	start-stop-daemon --stop --quiet --pidfile \
++		/var/run/$NAME.pid --exec $DAEMON
++	sleep 1
++	start-stop-daemon --start --quiet --pidfile \
++		/var/run/$NAME.pid --exec $DAEMON -- $DAEMON_OPTS
++	echo "$NAME."
++	;;
++  *)
++	N=/etc/init.d/$NAME
++	# echo "Usage: $N {start|stop|restart|reload|force-reload}" >&2
++	echo "Usage: $N {start|stop|restart|force-reload}" >&2
++	exit 1
++	;;
++esac
++
++exit 0
+--- ipc-3.7.10.orig/debian/compat
++++ ipc-3.7.10/debian/compat
+@@ -0,0 +1 @@
++5
+--- ipc-3.7.10.orig/debian/emacsen-startup.ex
++++ ipc-3.7.10/debian/emacsen-startup.ex
+@@ -0,0 +1,25 @@
++;; -*-emacs-lisp-*-
++;;
++;; Emacs startup file, e.g.  /etc/emacs/site-start.d/50ipc.el
++;; for the Debian ipc package
++;;
++;; Originally contributed by Nils Naumann <naumann@unileoben.ac.at>
++;; Modified by Dirk Eddelbuettel <edd@debian.org>
++;; Adapted for dh-make by Jim Van Zandt <jrv@debian.org>
++
++;; The ipc package follows the Debian/GNU Linux 'emacsen' policy and
++;; byte-compiles its elisp files for each 'emacs flavor' (emacs19,
++;; xemacs19, emacs20, xemacs20...).  The compiled code is then
++;; installed in a subdirectory of the respective site-lisp directory.
++;; We have to add this to the load-path:
++(let ((package-dir (concat "/usr/share/"
++                           (symbol-name flavor)
++                           "/site-lisp/ipc")))
++;; If package-dir does not exist, the ipc package must have
++;; removed but not purged, and we should skip the setup.
++  (when (file-directory-p package-dir)
++        (setq load-path (cons package-dir load-path))
++       (autoload 'ipc-mode "ipc-mode"
++         "Major mode for editing ipc files." t)
++       (add-to-list 'auto-mode-alist '("\\.ipc$" . ipc-mode))))
++
+--- ipc-3.7.10.orig/debian/watch.ex
++++ ipc-3.7.10/debian/watch.ex
+@@ -0,0 +1,22 @@
++# Example watch control file for uscan
++# Rename this file to "watch" and then you can run the "uscan" command
++# to check for upstream updates and more.
++# See uscan(1) for format
++
++# Compulsory line, this is a version 3 file
++version=3
++
++# Uncomment to examine a Webpage 
++# <Webpage URL> <string match>
++#http://www.example.com/downloads.php ipc-(.*)\.tar\.gz
++
++# Uncomment to examine a Webserver directory
++#http://www.example.com/pub/ipc-(.*)\.tar\.gz
++
++# Uncommment to examine a FTP server
++#ftp://ftp.example.com/pub/ipc-(.*)\.tar\.gz debian uupdate
++
++# Uncomment to find new files on sourceforge, for debscripts >= 2.9
++# http://sf.net/ipc/ipc-(.*)\.tar\.gz
++
++
+--- ipc-3.7.10.orig/debian/README.Debian
++++ ipc-3.7.10/debian/README.Debian
+@@ -0,0 +1,6 @@
++ipc for Debian
++--------------
++
++   No notes necessary, yet :)
++
++ -- Tugrul Galatali <tugrul@galatali.com>, Sun, 10 Sep 2006 20:03:21 -0400
+--- ipc-3.7.10.orig/debian/postinst.ex
++++ ipc-3.7.10/debian/postinst.ex
+@@ -0,0 +1,42 @@
++#!/bin/sh
++# postinst script for ipc
++#
++# see: dh_installdeb(1)
++
++set -e
++
++# summary of how this script can be called:
++#        * <postinst> `configure' <most-recently-configured-version>
++#        * <old-postinst> `abort-upgrade' <new version>
++#        * <conflictor's-postinst> `abort-remove' `in-favour' <package>
++#          <new-version>
++#        * <deconfigured's-postinst> `abort-deconfigure' `in-favour'
++#          <failed-install-package> <version> `removing'
++#          <conflicting-package> <version>
++# for details, see http://www.debian.org/doc/debian-policy/ or
++# the debian-policy package
++#
++
++case "$1" in
++    configure)
++
++    ;;
++
++    abort-upgrade|abort-remove|abort-deconfigure)
++
++    ;;
++
++    *)
++        echo "postinst called with unknown argument \`$1'" >&2
++        exit 1
++    ;;
++esac
++
++# dh_installdeb will replace this with shell code automatically
++# generated by other debhelper scripts.
++
++#DEBHELPER#
++
++exit 0
++
++
+--- ipc-3.7.10.orig/debian/postrm.ex
++++ ipc-3.7.10/debian/postrm.ex
+@@ -0,0 +1,38 @@
++#!/bin/sh
++# postrm script for ipc
++#
++# see: dh_installdeb(1)
++
++set -e
++
++# summary of how this script can be called:
++#        * <postrm> `remove'
++#        * <postrm> `purge'
++#        * <old-postrm> `upgrade' <new-version>
++#        * <new-postrm> `failed-upgrade' <old-version>
++#        * <new-postrm> `abort-install'
++#        * <new-postrm> `abort-install' <old-version>
++#        * <new-postrm> `abort-upgrade' <old-version>
++#        * <disappearer's-postrm> `disappear' <r>overwrit>r> <new-version>
++# for details, see http://www.debian.org/doc/debian-policy/ or
++# the debian-policy package
++
++
++case "$1" in
++       purge|remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
++
++
++        ;;
++
++    *)
++        echo "postrm called with unknown argument \`$1'" >&2
++        exit 1
++
++esac
++
++# dh_installdeb will replace this with shell code automatically
++# generated by other debhelper scripts.
++
++#DEBHELPER#
++
++exit 0
+--- ipc-3.7.10.orig/debian/prerm.ex
++++ ipc-3.7.10/debian/prerm.ex
+@@ -0,0 +1,38 @@
++#!/bin/sh
++# prerm script for ipc
++#
++# see: dh_installdeb(1)
++
++set -e
++
++# summary of how this script can be called:
++#        * <prerm> `remove'
++#        * <old-prerm> `upgrade' <new-version>
++#        * <new-prerm> `failed-upgrade' <old-version>
++#        * <conflictor's-prerm> `remove' `in-favour' <package> <new-version>
++#        * <deconfigured's-prerm> `deconfigure' `in-favour'
++#          <package-being-installed> <version> `removing'
++#          <conflicting-package> <version>
++# for details, see http://www.debian.org/doc/debian-policy/ or
++# the debian-policy package
++
++
++case "$1" in
++    remove|upgrade|deconfigure)
++        ;;
++    failed-upgrade)
++        ;;
++    *)
++        echo "prerm called with unknown argument \`$1'" >&2
++        exit 1
++    ;;
++esac
++
++# dh_installdeb will replace this with shell code automatically
++# generated by other debhelper scripts.
++
++#DEBHELPER#
++
++exit 0
++
++
+--- ipc-3.7.10.orig/debian/preinst.ex
++++ ipc-3.7.10/debian/preinst.ex
+@@ -0,0 +1,38 @@
++#!/bin/sh
++# preinst script for ipc
++#
++# see: dh_installdeb(1)
++
++set -e
++
++# summary of how this script can be called:
++#        * <new-preinst> `install'
++#        * <new-preinst> `install' <old-version>
++#        * <new-preinst> `upgrade' <old-version>
++#        * <old-preinst> `abort-upgrade' <new-version>
++#
++# for details, see http://www.debian.org/doc/debian-policy/ or
++# the debian-policy package
++
++
++case "$1" in
++    install|upgrade)
++    ;;
++
++    abort-upgrade)
++    ;;
++
++    *)
++        echo "preinst called with unknown argument \`$1'" >&2
++        exit 1
++    ;;
++esac
++
++# dh_installdeb will replace this with shell code automatically
++# generated by other debhelper scripts.
++
++#DEBHELPER#
++
++exit 0
++
++
+--- ipc-3.7.10.orig/debian/ipc.doc-base.EX
++++ ipc-3.7.10/debian/ipc.doc-base.EX
+@@ -0,0 +1,22 @@
++Document: ipc
++Title: Debian ipc Manual
++Author: <insert document author here>
++Abstract: This manual describes what ipc is
++ and how it can be used to
++ manage online manuals on Debian systems.
++Section: unknown
++
++Format: debiandoc-sgml
++Files: /usr/share/doc/ipc/ipc.sgml.gz
++
++Format: postscript
++Files: /usr/share/doc/ipc/ipc.ps.gz
++
++Format: text
++Files: /usr/share/doc/ipc/ipc.text.gz
++
++Format: HTML
++Index: /usr/share/doc/ipc/html/index.html
++Files: /usr/share/doc/ipc/html/*.html
++
++  
+--- ipc-3.7.10.orig/debian/copyright
++++ ipc-3.7.10/debian/copyright
+@@ -0,0 +1,21 @@
++This package was debianized by Tugrul Galatali <tugrul@galatali.com> on
++Sun, 10 Sep 2006 20:03:21 -0400.
++
++It was downloaded from http://www.cs.cmu.edu/~IPC/
++
++Upstream Author: Reid Simmons <reids+@cs.cmu.edu>
++
++Copyright: CMU 1991-2005
++
++License:
++
++*shrug*
++
++
++The Debian packaging is (C) 2006, Tugrul Galatali <tugrul@galatali.com> and
++is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
++
++
++# Please also look if there are files or directories which have a
++# different copyright/license attached and list them here.
++
+--- ipc-3.7.10.orig/debian/manpage.1.ex
++++ ipc-3.7.10/debian/manpage.1.ex
+@@ -0,0 +1,59 @@
++.\"                                      Hey, EMACS: -*- nroff -*-
++.\" First parameter, NAME, should be all caps
++.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
++.\" other parameters are allowed: see man(7), man(1)
++.TH IPC SECTION "September 10, 2006"
++.\" Please adjust this date whenever revising the manpage.
++.\"
++.\" Some roff macros, for reference:
++.\" .nh        disable hyphenation
++.\" .hy        enable hyphenation
++.\" .ad l      left justify
++.\" .ad b      justify to both left and right margins
++.\" .nf        disable filling
++.\" .fi        enable filling
++.\" .br        insert line break
++.\" .sp <n>    insert n+1 empty lines
++.\" for manpage-specific macros, see man(7)
++.SH NAME
++ipc \- program to do something
++.SH SYNOPSIS
++.B ipc
++.RI [ options ] " files" ...
++.br
++.B bar
++.RI [ options ] " files" ...
++.SH DESCRIPTION
++This manual page documents briefly the
++.B ipc
++and
++.B bar
++commands.
++.PP
++.\" TeX users may be more comfortable with the \fB<whatever>\fP and
++.\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
++.\" respectively.
++\fBipc\fP is a program that...
++.SH OPTIONS
++These programs follow the usual GNU command line syntax, with long
++options starting with two dashes (`-').
++A summary of options is included below.
++For a complete description, see the Info files.
++.TP
++.B \-h, \-\-help
++Show summary of options.
++.TP
++.B \-v, \-\-version
++Show version of program.
++.SH SEE ALSO
++.BR bar (1),
++.BR baz (1).
++.br
++The programs are documented fully by
++.IR "The Rise and Fall of a Fooish Bar" ,
++available via the Info system.
++.SH AUTHOR
++ipc was written by <upstream author>.
++.PP
++This manual page was written by Tugrul Galatali <tugrul@galatali.com>,
++for the Debian project (but may be used by others).
+--- ipc-3.7.10.orig/debian/manpage.sgml.ex
++++ ipc-3.7.10/debian/manpage.sgml.ex
+@@ -0,0 +1,156 @@
++<!doctype refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
++
++<!-- Process this file with docbook-to-man to generate an nroff manual
++     page: `docbook-to-man manpage.sgml > manpage.1'.  You may view
++     the manual page with: `docbook-to-man manpage.sgml | nroff -man |
++     less'.  A typical entry in a Makefile or Makefile.am is:
++
++manpage.1: manpage.sgml
++	docbook-to-man $< > $@
++
++    
++	The docbook-to-man binary is found in the docbook-to-man package.
++	Please remember that if you create the nroff version in one of the
++	debian/rules file targets (such as build), you will need to include
++	docbook-to-man in your Build-Depends control field.
++
++  -->
++
++  <!-- Fill in your name for FIRSTNAME and SURNAME. -->
++  <!ENTITY dhfirstname "<firstname>FIRSTNAME</firstname>">
++  <!ENTITY dhsurname   "<surname>SURNAME</surname>">
++  <!-- Please adjust the date whenever revising the manpage. -->
++  <!ENTITY dhdate      "<date>September 10, 2006</date>">
++  <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
++       allowed: see man(7), man(1). -->
++  <!ENTITY dhsection   "<manvolnum>SECTION</manvolnum>">
++  <!ENTITY dhemail     "<email>tugrul@galatali.com</email>">
++  <!ENTITY dhusername  "Tugrul Galatali">
++  <!ENTITY dhucpackage "<refentrytitle>IPC</refentrytitle>">
++  <!ENTITY dhpackage   "ipc">
++
++  <!ENTITY debian      "<productname>Debian</productname>">
++  <!ENTITY gnu         "<acronym>GNU</acronym>">
++  <!ENTITY gpl         "&gnu; <acronym>GPL</acronym>">
++]>
++
++<refentry>
++  <refentryinfo>
++    <address>
++      &dhemail;
++    </address>
++    <author>
++      &dhfirstname;
++      &dhsurname;
++    </author>
++    <copyright>
++      <year>2003</year>
++      <holder>&dhusername;</holder>
++    </copyright>
++    &dhdate;
++  </refentryinfo>
++  <refmeta>
++    &dhucpackage;
++
++    &dhsection;
++  </refmeta>
++  <refnamediv>
++    <refname>&dhpackage;</refname>
++
++    <refpurpose>program to do something</refpurpose>
++  </refnamediv>
++  <refsynopsisdiv>
++    <cmdsynopsis>
++      <command>&dhpackage;</command>
++
++      <arg><option>-e <replaceable>this</replaceable></option></arg>
++
++      <arg><option>--example <replaceable>that</replaceable></option></arg>
++    </cmdsynopsis>
++  </refsynopsisdiv>
++  <refsect1>
++    <title>DESCRIPTION</title>
++
++    <para>This manual page documents briefly the
++      <command>&dhpackage;</command> and <command>bar</command>
++      commands.</para>
++
++    <para>This manual page was written for the &debian; distribution
++      because the original program does not have a manual page.
++      Instead, it has documentation in the &gnu;
++      <application>Info</application> format; see below.</para>
++
++    <para><command>&dhpackage;</command> is a program that...</para>
++
++  </refsect1>
++  <refsect1>
++    <title>OPTIONS</title>
++
++    <para>These programs follow the usual &gnu; command line syntax,
++      with long options starting with two dashes (`-').  A summary of
++      options is included below.  For a complete description, see the
++      <application>Info</application> files.</para>
++
++    <variablelist>
++      <varlistentry>
++        <term><option>-h</option>
++          <option>--help</option>
++        </term>
++        <listitem>
++          <para>Show summary of options.</para>
++        </listitem>
++      </varlistentry>
++      <varlistentry>
++        <term><option>-v</option>
++          <option>--version</option>
++        </term>
++        <listitem>
++          <para>Show version of program.</para>
++        </listitem>
++      </varlistentry>
++    </variablelist>
++  </refsect1>
++  <refsect1>
++    <title>SEE ALSO</title>
++
++    <para>bar (1), baz (1).</para>
++
++    <para>The programs are documented fully by <citetitle>The Rise and
++      Fall of a Fooish Bar</citetitle> available via the
++      <application>Info</application> system.</para>
++  </refsect1>
++  <refsect1>
++    <title>AUTHOR</title>
++
++    <para>This manual page was written by &dhusername; &dhemail; for
++      the &debian; system (but may be used by others).  Permission is
++      granted to copy, distribute and/or modify this document under
++      the terms of the &gnu; General Public License, Version 2 any 
++	  later version published by the Free Software Foundation.
++    </para>
++	<para>
++	  On Debian systems, the complete text of the GNU General Public
++	  License can be found in /usr/share/common-licenses/GPL.
++	</para>
++
++  </refsect1>
++</refentry>
++
++<!-- Keep this comment at the end of the file
++Local variables:
++mode: sgml
++sgml-omittag:t
++sgml-shorttag:t
++sgml-minimize-attributes:nil
++sgml-always-quote-attributes:t
++sgml-indent-step:2
++sgml-indent-data:t
++sgml-parent-document:nil
++sgml-default-dtd-file:nil
++sgml-exposed-tags:nil
++sgml-local-catalogs:nil
++sgml-local-ecat-files:nil
++End:
++-->
++
++
+--- ipc-3.7.10.orig/debian/manpage.xml.ex
++++ ipc-3.7.10/debian/manpage.xml.ex
+@@ -0,0 +1,148 @@
++<?xml version='1.0' encoding='ISO-8859-1'?>
++<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
++"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
++
++<!--
++
++Process this file with an XSLT processor: `xsltproc \
++-''-nonet /usr/share/sgml/docbook/stylesheet/xsl/nwalsh/\
++manpages/docbook.xsl manpage.dbk'.  A manual page
++<package>.<section> will be generated.  You may view the
++manual page with: nroff -man <package>.<section> | less'.  A
++typical entry in a Makefile or Makefile.am is:
++
++DB2MAN=/usr/share/sgml/docbook/stylesheet/xsl/nwalsh/\
++manpages/docbook.xsl
++XP=xsltproc -''-nonet
++
++manpage.1: manpage.dbk
++        $(XP) $(DB2MAN) $<
++    
++The xsltproc binary is found in the xsltproc package.  The
++XSL files are in docbook-xsl.  Please remember that if you
++create the nroff version in one of the debian/rules file
++targets (such as build), you will need to include xsltproc
++and docbook-xsl in your Build-Depends control field.
++
++-->
++
++  <!-- Fill in your name for FIRSTNAME and SURNAME. -->
++  <!ENTITY dhfirstname "<firstname>FIRSTNAME</firstname>">
++  <!ENTITY dhsurname   "<surname>SURNAME</surname>">
++  <!-- Please adjust the date whenever revising the manpage. -->
++  <!ENTITY dhdate      "<date>September 10, 2006</date>">
++  <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
++       allowed: see man(7), man(1). -->
++  <!ENTITY dhsection   "<manvolnum>SECTION</manvolnum>">
++  <!ENTITY dhemail     "<email>tugrul@galatali.com</email>">
++  <!ENTITY dhusername  "Tugrul Galatali">
++  <!ENTITY dhucpackage "<refentrytitle>IPC</refentrytitle>">
++  <!ENTITY dhpackage   "ipc">
++
++  <!ENTITY debian      "<productname>Debian</productname>">
++  <!ENTITY gnu         "<acronym>GNU</acronym>">
++  <!ENTITY gpl         "&gnu; <acronym>GPL</acronym>">
++]>
++
++<refentry>
++  <refentryinfo>
++    <address>
++      &dhemail;
++    </address>
++    <author>
++      &dhfirstname;
++      &dhsurname;
++    </author>
++    <copyright>
++      <year>2003</year>
++      <holder>&dhusername;</holder>
++    </copyright>
++    &dhdate;
++  </refentryinfo>
++  <refmeta>
++    &dhucpackage;
++
++    &dhsection;
++  </refmeta>
++  <refnamediv>
++    <refname>&dhpackage;</refname>
++
++    <refpurpose>program to do something</refpurpose>
++  </refnamediv>
++  <refsynopsisdiv>
++    <cmdsynopsis>
++      <command>&dhpackage;</command>
++
++      <arg><option>-e <replaceable>this</replaceable></option></arg>
++
++      <arg><option>--example <replaceable>that</replaceable></option></arg>
++    </cmdsynopsis>
++  </refsynopsisdiv>
++  <refsect1>
++    <title>DESCRIPTION</title>
++
++    <para>This manual page documents briefly the
++      <command>&dhpackage;</command> and <command>bar</command>
++      commands.</para>
++
++    <para>This manual page was written for the &debian; distribution
++      because the original program does not have a manual page.
++      Instead, it has documentation in the &gnu;
++      <application>Info</application> format; see below.</para>
++
++    <para><command>&dhpackage;</command> is a program that...</para>
++
++  </refsect1>
++  <refsect1>
++    <title>OPTIONS</title>
++
++    <para>These programs follow the usual &gnu; command line syntax,
++      with long options starting with two dashes (`-').  A summary of
++      options is included below.  For a complete description, see the
++      <application>Info</application> files.</para>
++
++    <variablelist>
++      <varlistentry>
++        <term><option>-h</option>
++          <option>--help</option>
++        </term>
++        <listitem>
++          <para>Show summary of options.</para>
++        </listitem>
++      </varlistentry>
++      <varlistentry>
++        <term><option>-v</option>
++          <option>--version</option>
++        </term>
++        <listitem>
++          <para>Show version of program.</para>
++        </listitem>
++      </varlistentry>
++    </variablelist>
++  </refsect1>
++  <refsect1>
++    <title>SEE ALSO</title>
++
++    <para>bar (1), baz (1).</para>
++
++    <para>The programs are documented fully by <citetitle>The Rise and
++      Fall of a Fooish Bar</citetitle> available via the
++      <application>Info</application> system.</para>
++  </refsect1>
++  <refsect1>
++    <title>AUTHOR</title>
++
++    <para>This manual page was written by &dhusername; &dhemail; for
++      the &debian; system (but may be used by others).  Permission is
++      granted to copy, distribute and/or modify this document under
++      the terms of the &gnu; General Public License, Version 2 any 
++	  later version published by the Free Software Foundation.
++    </para>
++	<para>
++	  On Debian systems, the complete text of the GNU General Public
++	  License can be found in /usr/share/common-licenses/GPL.
++	</para>
++
++  </refsect1>
++</refentry>
++
+--- ipc-3.7.10.orig/GNUmakefile
++++ ipc-3.7.10/GNUmakefile
+@@ -38,14 +38,12 @@
+ #
+ #############################################################################
+ 
+-INSTALL_DIR	= .
+-ifndef BASE_DIR
+-BASE_DIR	:= $(shell cd $(INSTALL_DIR);/bin/pwd)
+-endif
++INSTALL_DIR	= $(DESTDIR)
++BASE_DIR	= $(shell /bin/pwd)
+ MODULE_DIR	= 
+ PROJECT		= ipc
+ MODULE		= 
+-SUBDIRS		= etc src lisp java test doc xdrgen
++SUBDIRS		= etc src
+ 
+ #############################################################################
+ # Where are the standard files?
+--- ipc-3.7.10.orig/src/com.h	
++++ ipc-3.7.10/src/com.h	
+@@ -113,8 +113,8 @@
+ #define PROTOCOL_NAME "tcp"
+ #define HOST_NAME_SIZE   32
+ 
+-#define TCP_SOCKET_BUFFER (16*1024)
+-#define UNIX_SOCKET_BUFFER (32*1024)
++#define TCP_SOCKET_BUFFER (3*1024*1024)
++#define UNIX_SOCKET_BUFFER (3*1024*1024)
+ 
+ /* The full name must be less than 14 characters. */
+ #ifdef macintosh
+--- ipc-3.7.10.orig/src/ipc.c	2003-03-11 18:39:00.000000000 -0500
++++ ipc-3.7.10/src/ipc.c	2006-12-12 18:01:45.000000000 -0500
+@@ -579,10 +579,10 @@
+   } else {
+     msg = x_ipc_findOrRegisterMessage(msgName);
+     msg->limit = queueLength;
+-    LOCK_M_MUTEX;
++    //LOCK_M_MUTEX;
+     x_ipcLimitPendingMessages(msgName, GET_M_GLOBAL(modNameGlobal), 
+ 			      queueLength);
+-    UNLOCK_M_MUTEX;
++    //UNLOCK_M_MUTEX;
+     return IPC_OK;
+   }
+ }

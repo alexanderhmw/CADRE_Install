@@ -1,0 +1,28 @@
+Format: 1.8
+Date: Sat,  6 Jan 2007 13:47:12 -0500
+Source: ipc
+Binary: ipc
+Architecture: source amd64
+Version: 3.7.10-4
+Distribution: unstable
+Urgency: low
+Maintainer: Tugrul Galatali <tugrul@galatali.com>
+Changed-By: Tugrul Galatali <tugrul@galatali.com>
+Description:
+ ipc        - CMU IPC
+Changes:
+ ipc (3.7.10-4) unstable; urgency=low
+ .
+   * Added tca.h to the package
+Checksums-Sha1:
+ 2227cd3429d19c8a4271c3f5a47d36a50a1dd0d5 727 ipc_3.7.10-4.dsc
+ 6476f0f6c07f5a37934e10eb081fc2bf3a68dbd1 8900 ipc_3.7.10-4.diff.gz
+ 51f739e9b26da907ebf50d01e5811aba86565181 167576 ipc_3.7.10-4_amd64.deb
+Checksums-Sha256:
+ 9e8e6a5529848cf327da86fef56da0e81426eec7484a24acde8facc91d6691b9 727 ipc_3.7.10-4.dsc
+ be512aaeb9c40427c3dc194542ab9b081ceba928878073383efaa5499eee60ff 8900 ipc_3.7.10-4.diff.gz
+ f8854da25cb76e57cb648f0a4560292b681ae271084b40ad88ab0b3660338ee3 167576 ipc_3.7.10-4_amd64.deb
+Files:
+ 07922f66c5ac1c31a7c23259df97bdac 727 contrib/devel optional ipc_3.7.10-4.dsc
+ 6bde55737332f65df22d5b8e018a9a19 8900 contrib/devel optional ipc_3.7.10-4.diff.gz
+ aaaa87b445526df3fd4b859098e3814b 167576 contrib/devel optional ipc_3.7.10-4_amd64.deb

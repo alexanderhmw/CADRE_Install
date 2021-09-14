@@ -1,0 +1,16 @@
+Package: ipc
+Version: 3.7.10-4
+Architecture: amd64
+Maintainer: Tugrul Galatali <tugrul@galatali.com>
+Installed-Size: 801
+Depends: libc6 (>= 2.15)
+Section: contrib/devel
+Priority: optional
+Description: CMU IPC
+ gentoo is a file manager for Linux written from scratch in pure C. It
+ IPC provides flexible, efficient message passing between processes. It
+ can transparently send and receive complex data structures, including
+ lists and variable length arrays, using both anonymous "publish/sub-
+ scribe" and "client/server" message-passing paradigms.
+ .
+ http://www.cs.cmu.edu/~IPC/

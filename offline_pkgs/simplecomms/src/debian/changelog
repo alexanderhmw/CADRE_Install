@@ -1,0 +1,442 @@
+simplecomms (70-2) unstable; urgency=low
+
+        Ported to Ubuntu 10.04 Lucid Lynx
+
+ -- matt <mmcnaugh@ri.cmu.edu>  Wed, 22 Jun 2011 17:34:00 -0400
+
+simplecomms (70-1) unstable; urgency=low
+
+        Added log_warns for failure cases of UnixClient::connect() not already equipped with one.
+
+ -- tugrul <tugrul@tartanracing.org>  Sat, 08 Sep 2007 16:13:10 -0400
+
+simplecomms (69-1) unstable; urgency=low
+
+        Worker threads for writing.
+
+ -- tugrul <tugrul@tartanracing.org>  Sat, 08 Sep 2007 14:19:43 -0400
+
+simplecomms (68-1) unstable; urgency=low
+
+        Define inequality operator for TimeStamp.
+
+ -- tugrul <tugrul@tartanracing.org>  Sun, 02 Sep 2007 18:44:12 -0400
+
+simplecomms (67-1) unstable; urgency=low
+
+        Reverting part of commit 63, setting O_NONBLOCK on UnixPeer. Spinning determined undesirable.
+
+ -- tugrul <tugrul@tartanracing.org>  Mon, 23 Jul 2007 14:23:43 -0400
+
+simplecomms (66-1) unstable; urgency=low
+
+        UdpDiscovery now obeys the broadcast address of the advertisedIntf.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 12 Jul 2007 16:28:32 -0400
+
+simplecomms (65-1) unstable; urgency=low
+
+        Added function to request individual interface address/netmask/broadcast address.
+    Moved NetworkIntfUtils functions into NetworkIntfUtils name space.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 12 Jul 2007 16:27:40 -0400
+
+simplecomms (64-1) unstable; urgency=low
+
+        Nagle's algorithm doesn't really fit in the setting SimpleComms is designed for, so TCP_NODELAY should be set.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 12 Jul 2007 15:55:25 -0400
+
+simplecomms (63-1) unstable; urgency=low
+
+        Prefer spinning to hanging when a unix datagram peer is SIGSTOPed, added O_NONBLOCK. Round robin dispatch loop prevents starvation.
+    Modified BasePeer to deal with EAGAIN, which occurs during the SIGSTOP case, or occasionally under heavy load where we use to block for short periods before.
+
+ -- tugrul <tugrul@tartanracing.org>  Wed, 04 Jul 2007 11:36:32 -0400
+
+simplecomms (62-1) unstable; urgency=low
+
+        Eliminate memcpy fest in how messages are received.
+
+ -- tugrul <tugrul@tartanracing.org>  Sun, 20 May 2007 13:49:08 -0400
+
+simplecomms (61-1) unstable; urgency=low
+
+        Switch to using adler32 for checksumming if there is enough (>1KB) data to make it safe.
+
+ -- tugrul <tugrul@tartanracing.org>  Sun, 20 May 2007 12:37:34 -0400
+
+simplecomms (60-1) unstable; urgency=low
+
+        Eliminate a memcpy in UnixClient::sendMsg by switching to the vectored sendmsg system call.
+
+ -- tugrul <tugrul@tartanracing.org>  Sun, 20 May 2007 12:31:02 -0400
+
+simplecomms (59-1) unstable; urgency=low
+
+        Moved memory allocation earlier in TcpPeer's receive sequence, reducing a full variable length memcpy to a constant 
+    length header only memcpy.
+
+ -- tugrul <tugrul@tartanracing.org>  Sat, 19 May 2007 16:39:48 -0400
+
+simplecomms (58-1) unstable; urgency=low
+
+        Restructured the way struct Message was defined to permit variable length memory allocations for storing fragments.
+
+ -- tugrul <tugrul@tartanracing.org>  Sat, 19 May 2007 16:24:49 -0400
+
+simplecomms (57-1) unstable; urgency=low
+
+        Fixed typo in help output of scc.
+
+ -- tugrul <tugrul@tartanracing.org>  Sat, 19 May 2007 16:22:44 -0400
+
+simplecomms (56-1) unstable; urgency=low
+
+        Added msgSize as a command line argument.
+    Dropped receive check after the condition indicated there was nothing to receive, which can be subject legitimately 
+    fail if a message arrives in the time between the condition check and the receive.
+
+ -- tugrul <tugrul@tartanracing.org>  Sat, 19 May 2007 13:59:13 -0400
+
+simplecomms (55-1) unstable; urgency=low
+
+        Made the remote peer optional
+
+ -- tugrul <tugrul@tartanracing.org>  Fri, 18 May 2007 15:51:54 -0400
+
+simplecomms (54-1) unstable; urgency=low
+
+        Added staleFragmentPruningThreshold option to scs which discards fragments sent more than the given number of 
+    seconds ago as a simple safety mechanism against backed up traffic.
+
+ -- tugrul <tugrul@tartanracing.org>  Fri, 18 May 2007 15:15:55 -0400
+
+simplecomms (53-1) unstable; urgency=low
+
+        Rogue debugging assert in Message.cc. Especially bad, since a corrupted header can easily have a zero dataLength 
+    field.
+
+ -- tugrul <tugrul@tartanracing.org>  Wed, 16 May 2007 18:57:17 -0400
+
+simplecomms (52-1) unstable; urgency=low
+
+        Added disconnection notification between UnixClient and BasePeer.
+
+ -- tugrul <tugrul@tartanracing.org>  Tue, 15 May 2007 17:47:55 -0400
+
+simplecomms (51-1) unstable; urgency=low
+
+        O_NONBLOCK should be set on all three types of file handles in TcpPeer, not just the listen handle.
+
+ -- tugrul <tugrul@tartanracing.org>  Tue, 15 May 2007 15:52:02 -0400
+
+simplecomms (50-1) unstable; urgency=low
+
+        Set FD_CLOEXEC on UnixClient file handles as they shouldn't be propagated to other processes execve'd from the 
+    client process.
+
+ -- tugrul <tugrul@tartanracing.org>  Tue, 15 May 2007 15:49:13 -0400
+
+simplecomms (49-1) unstable; urgency=low
+
+        Debian doesn't seem to like less whitespace on subsequent lines of a changelog entry than the first indented line.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 10 May 2007 20:21:07 -0400
+
+simplecomms (48-1) unstable; urgency=low
+
+        Eliminate validateChecksum() from TcpPeer.cc as validateHeaderChecksum() already delivers the necessary
+    synchronization checking.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 10 May 2007 18:46:14 -0400
+
+simplecomms (47-1) unstable; urgency=low
+
+        Added advertisedIntf option.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 10 May 2007 18:29:36 -0400
+
+simplecomms (46-1) unstable; urgency=low
+
+        Added a pipe() to signal the output thread of new input, breaking the timeout on poll()
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 10 May 2007 17:59:11 -0400
+
+simplecomms (45-1) unstable; urgency=low
+
+        Added ability to specify different in/out channels.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 10 May 2007 17:31:55 -0400
+
+simplecomms (44-1) unstable; urgency=low
+
+        Check the return value of Server::start() in ServerMain.cc
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 10 May 2007 14:35:52 -0400
+
+simplecomms (43-1) unstable; urgency=low
+
+        Updated output to be in milliseconds.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 10 May 2007 14:35:28 -0400
+
+simplecomms (42-1) unstable; urgency=low
+
+        The notion of partial writes to BasePeer.
+
+ -- tugrul <tugrul@tartanracing.org>  Wed, 09 May 2007 21:45:51 -0400
+
+simplecomms (41-1) unstable; urgency=low
+
+        Added more log messages to the connect() code.
+
+ -- tugrul <tugrul@tartanracing.org>  Wed, 09 May 2007 17:22:44 -0400
+
+simplecomms (40-1) unstable; urgency=low
+
+        Added command line arguments to scs.
+    Updated ClientMain to reflect default server unix socket path.
+    Made initial connect fatal by wrapping into loop.
+
+ -- tugrul <tugrul@tartanracing.org>  Wed, 09 May 2007 17:18:24 -0400
+
+simplecomms (39-1) unstable; urgency=low
+
+        Refactored most of the code in ServerMain.cc into a class.
+
+ -- tugrul <tugrul@tartanracing.org>  Tue, 08 May 2007 17:19:20 -0400
+
+simplecomms (38-1) unstable; urgency=low
+
+        Actually use threadRunning_ for something.
+    Renamed thread from discoveryThread to discoveryThreadMain to match convention elsewhere.
+
+ -- tugrul <tugrul@tartanracing.org>  Tue, 08 May 2007 15:14:48 -0400
+
+simplecomms (37-1) unstable; urgency=low
+
+        Make Discovery's interaction with the Peers fully self contained by registering local peers as well, and having 
+    Discovery poll them for subscriptions to broadcast.
+
+ -- tugrul <tugrul@tartanracing.org>  Tue, 08 May 2007 12:37:59 -0400
+
+simplecomms (36-1) unstable; urgency=low
+
+        Added epoch stamps to connection messages to signal the discovery agent of updated information.
+
+ -- tugrul <tugrul@tartanracing.org>  Mon, 07 May 2007 23:04:14 -0400
+
+simplecomms (35-1) unstable; urgency=low
+
+        Support files for quick debian package generation.
+
+ -- tugrul <tugrul@tartanracing.org>  Mon, 07 May 2007 22:31:22 -0400
+
+simplecomms (34-1) unstable; urgency=low
+
+        poll flag cleanup.
+
+ -- tugrul <tugrul@tartanracing.org>  Mon, 07 May 2007 21:27:57 -0400
+
+simplecomms (33-1) unstable; urgency=low
+
+        Added a TimeStamp to BasePeer::ClientData to facilitate checking for stale errors.
+
+ -- tugrul <tugrul@tartanracing.org>  Mon, 07 May 2007 21:22:44 -0400
+
+simplecomms (32-1) unstable; urgency=low
+
+        Check socket errors in handleErrors() before acting on them, in case another thread has already acted on them.
+
+ -- tugrul <tugrul@tartanracing.org>  Mon, 07 May 2007 21:21:11 -0400
+
+simplecomms (31-1) unstable; urgency=low
+
+        handleErrors needs to acquire clientsMutex_.
+
+ -- tugrul <tugrul@tartanracing.org>  Mon, 07 May 2007 14:50:55 -0400
+
+simplecomms (30-1) unstable; urgency=low
+
+        Updated the client test program to generate more interesting latency statistics.
+
+ -- tugrul <tugrul@tartanracing.org>  Sun, 06 May 2007 19:15:13 -0400
+
+simplecomms (29-1) unstable; urgency=low
+
+        Improved simple status output from server to include kb/s read from local and remote peers.
+
+ -- tugrul <tugrul@tartanracing.org>  Sun, 06 May 2007 18:12:32 -0400
+
+simplecomms (28-1) unstable; urgency=low
+
+        Added a mechanism for peers to deal with errors picked up by the poll in the server threads.
+
+ -- tugrul <tugrul@tartanracing.org>  Sun, 06 May 2007 18:10:29 -0400
+
+simplecomms (27-1) unstable; urgency=low
+
+        Keep track of server acknowledgements of subscription requests.
+    Resubscribe to previously subscribed channels on connect.
+
+ -- tugrul <tugrul@tartanracing.org>  Fri, 04 May 2007 17:20:25 -0400
+
+simplecomms (26-1) unstable; urgency=low
+
+        Only enforce maxReceiveDepth if non-zero.
+
+ -- tugrul <tugrul@tartanracing.org>  Fri, 04 May 2007 16:46:26 -0400
+
+simplecomms (25-1) unstable; urgency=low
+
+        Added notion of receive queue limits to the Client class.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 03 May 2007 22:45:36 -0400
+
+simplecomms (24-1) unstable; urgency=low
+
+        SConstruct changes related to last commit.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 03 May 2007 22:44:30 -0400
+
+simplecomms (23-1) unstable; urgency=low
+
+        Split larger methods of Message into Message.cc
+    Initial commit of Constants.h
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 03 May 2007 22:42:16 -0400
+
+simplecomms (22-1) unstable; urgency=low
+
+        Initial client statistics generation.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 03 May 2007 13:38:34 -0400
+
+simplecomms (21-1) unstable; urgency=low
+
+        Fix totalpages calculation to properly deal with remainders.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 03 May 2007 13:19:43 -0400
+
+simplecomms (20-1) unstable; urgency=low
+
+        Initial commit of TcpPeer.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 03 May 2007 13:17:31 -0400
+
+simplecomms (19-1) unstable; urgency=low
+
+        Modifications to facilitate peers with multiple read handles by passing the polled handle to receiveMsg.
+    Move the creation of ClientData entries to a factory method to allow subclassing by BasePeer subclasses.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 03 May 2007 13:16:05 -0400
+
+simplecomms (18-1) unstable; urgency=low
+
+        Switch to dual header/data checksum to facilitate verifying the fixed length header before reading the variable 
+    length body off a stream.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 03 May 2007 13:12:52 -0400
+
+simplecomms (17-1) unstable; urgency=low
+
+        Check the return value of getConnectionInfo() and only send on Ok.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 03 May 2007 13:11:38 -0400
+
+simplecomms (16-1) unstable; urgency=low
+
+        Properly set the length & checksum of generated channel subscription messages.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 03 May 2007 13:10:22 -0400
+
+simplecomms (15-1) unstable; urgency=low
+
+        Header tidying in *Peer.cc
+
+ -- tugrul <tugrul@tartanracing.org>  Wed, 02 May 2007 19:17:37 -0400
+
+simplecomms (14-1) unstable; urgency=low
+
+        Gave BaseClientType a getParentPeer() method to eliminate the read/writeOwners malarkey in ServerMain.cc
+
+ -- tugrul <tugrul@tartanracing.org>  Tue, 01 May 2007 18:04:25 -0400
+
+simplecomms (13-1) unstable; urgency=low
+
+        Should be checking for positive/zero/negative from compare, not +1/0/-1.
+
+ -- tugrul <tugrul@tartanracing.org>  Tue, 01 May 2007 12:35:48 -0400
+
+simplecomms (12-1) unstable; urgency=low
+
+        Added log_debug in subscription handler.
+
+ -- tugrul <tugrul@tartanracing.org>  Mon, 30 Apr 2007 16:22:38 -0400
+
+simplecomms (11-1) unstable; urgency=low
+
+        When adding a new channel to the channelSubscribers_ map, was using the adjacent iterator instead of the newly 
+    added iterator with the correct channel name. Modified to just refer to the channel variable instead.
+
+ -- tugrul <tugrul@tartanracing.org>  Mon, 30 Apr 2007 16:19:18 -0400
+
+simplecomms (10-1) unstable; urgency=low
+
+        clientReset shouldn't remove client entry when called from clientConnect. Removal made optional, off by default.
+
+ -- tugrul <tugrul@tartanracing.org>  Mon, 30 Apr 2007 15:24:08 -0400
+
+simplecomms (9-1) unstable; urgency=low
+
+        Added time based pruning to partially received messages.
+    Moved from having FragmentBuffer directly in FragmentBufferMap to putting it on the heap to reduce the cost of
+    copying it onto the completed buffers list.
+
+ -- tugrul <tugrul@tartanracing.org>  Sun, 29 Apr 2007 18:38:31 -0400
+
+simplecomms (8-1) unstable; urgency=low
+
+        Removed recursive clientsMutex_ lock in handleControlMsg -> clientConnect -> clientReset. clientReset now assumes
+    clientsMutex_ is held by caller.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 26 Apr 2007 18:46:07 -0400
+
+simplecomms (7-1) unstable; urgency=low
+
+        Added current directory to linking path to alleviate the need for symlinks into $UC_DIR/lib
+    Light cleaning.
+
+ -- tugrul <tugrul@tartanracing.org>  Tue, 17 Apr 2007 13:38:18 -0400
+
+simplecomms (6-1) unstable; urgency=low
+
+        Put a base pure virtual type for ClientData into Peer.h, so that ClientData can be passed out of the Peers instead of name/fd pairs, which require a lookup in doWrites.
+
+ -- tugrul <tugrul@tartanracing.org>  Tue, 17 Apr 2007 13:36:45 -0400
+
+simplecomms (5-1) unstable; urgency=low
+
+        s/boost::shared_ptr<Message>/MessagePtr/g
+
+ -- tugrul <tugrul@tartanracing.org>  Tue, 17 Apr 2007 13:33:32 -0400
+
+simplecomms (4-1) unstable; urgency=low
+
+        Not that it has happened yet, but PThreadLocker should be boost::noncopyable.
+
+ -- tugrul <tugrul@tartanracing.org>  Tue, 17 Apr 2007 13:27:54 -0400
+
+simplecomms (3-1) unstable; urgency=low
+
+        Correct unfreed malloc in GetInterfaceAddresses.
+
+ -- tugrul <tugrul@tartanracing.org>  Tue, 17 Apr 2007 13:17:02 -0400
+
+simplecomms (2-1) unstable; urgency=low
+
+        Initial commit of SimpleComms.
+
+ -- tugrul <tugrul@tartanracing.org>  Thu, 15 Mar 2007 15:32:32 -0400
+

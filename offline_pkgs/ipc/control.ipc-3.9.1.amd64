@@ -1,0 +1,7 @@
+Package: ipc
+Source: ipc
+Version: 3.9.1
+Architecture: amd64
+Maintainer: Paul E. Rybski <prybski@cs.cmu.edu>
+Priority: optional
+Description: IPC

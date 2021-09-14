@@ -1,0 +1,21 @@
+This package was debianized by Tugrul Galatali <tugrul@galatali.com> on
+Sun, 10 Sep 2006 20:03:21 -0400.
+
+It was downloaded from http://www.cs.cmu.edu/~IPC/
+
+Upstream Author: Reid Simmons <reids+@cs.cmu.edu>
+
+Copyright: CMU 1991-2005
+
+License:
+
+*shrug*
+
+
+The Debian packaging is (C) 2006, Tugrul Galatali <tugrul@galatali.com> and
+is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
+
+
+# Please also look if there are files or directories which have a
+# different copyright/license attached and list them here.
+

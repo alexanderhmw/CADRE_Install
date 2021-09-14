@@ -1,0 +1,12 @@
+Package: bayes++-dev
+Source: bayes++
+Version: 2017.3
+Architecture: amd64
+Maintainer: Paul E. Rybski <prybski@cs.cmu.edu>
+Priority: optional
+Description: Open Source Bayesian Filtering Classes
+    Bayes++ is an open source library of C++ classes. These classes represent
+ and implement a wide variety of numerical algorithms for Bayesian Filtering of
+ discrete systems. The classes provide tested and consistent numerical methods
+ and the class hierarchy explicitly represents the variety of filtering
+ algorithms and system model types.
