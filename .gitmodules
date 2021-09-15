@@ -40,3 +40,18 @@
 [submodule "gits/GPUJPEG_1_0_0"]
 	path = gits/GPUJPEG_1_0_0
 	url = https://github.com/CESNET/GPUJPEG.git
+[submodule "gits/armadillo_10_7"]
+	path = gits/armadillo_10_7
+	url = https://gitlab.com/conradsnicta/armadillo-code.git
+[submodule "gits/Pangolin_0_6"]
+	path = gits/Pangolin_0_6
+	url = https://github.com/stevenlovegrove/Pangolin.git
+[submodule "gits/gf_orb_slam2_1_0"]
+	path = gits/gf_orb_slam2_1_0
+	url = https://github.com/ivalab/gf_orb_slam2.git
+[submodule "gits/ads_3_7_2"]
+	path = gits/ads_3_7_2
+	url = https://github.com/githubuser0xFFFF/Qt-Advanced-Docking-System.git
+[submodule "gits/JKQtPlotter_2019_11_3"]
+	path = gits/JKQtPlotter_2019_11_3
+	url = https://github.com/jkriege2/JKQtPlotter.git

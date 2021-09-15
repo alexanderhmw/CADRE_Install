@@ -1,0 +1,35 @@
+diff -Naur ./Makefile ./Makefile
+--- ./Makefile	2008-03-11 15:16:36.000000000 -0400
++++ ./Makefile	2020-02-26 17:19:23.551706000 -0500
+@@ -11,13 +11,14 @@
+ SMPLOBJ = $(SAMPLES:%=samples/%/main.o)
+ 
+ INCS = -I include 
+-LIBS = -lm -Llib -lnmea
++LIBS = -Llib -lnmea -lm
+  
+ .PHONY: all all-before all-after clean clean-custom doc
+  
+ all: all-before $(BIN) samples all-after 
+ 
+ all-before:
++	mkdir -p lib
+ 	mkdir -p build/nmea_gcc
+ 
+ clean: clean-custom 
+@@ -33,12 +34,12 @@
+ 	ranlib $@
+ 
+ build/nmea_gcc/%.o: src/%.c 
+-	$(CC) $(INCS) -c $< -o $@
++	$(CC) -fPIC $(INCS) -c $< -o $@
+ 
+ samples: $(SMPLS)
+ 
+ samples_%: samples/%/main.o
+-	$(CC) $< $(LIBS) -o build/$@
++	$(CC) -fPIC $< $(LIBS) -o build/$@
+ 
+ samples/%/main.o: samples/%/main.c
+-	$(CC) $(INCS) -c $< -o $@
++	$(CC) -fPIC $(INCS) -c $< -o $@
