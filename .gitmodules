@@ -55,3 +55,6 @@
 [submodule "gits/JKQtPlotter_2019_11_3"]
 	path = gits/JKQtPlotter_2019_11_3
 	url = https://github.com/jkriege2/JKQtPlotter.git
+[submodule "gits/GeographicLib_release"]
+	path = gits/GeographicLib_release
+	url = https://git.code.sf.net/p/geographiclib/code

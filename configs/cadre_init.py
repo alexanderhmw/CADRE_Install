@@ -11,7 +11,7 @@ config = {
     #             {'cmd' : 'echo \'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${UC_DIR}/lib\' >> ~/.bashrc', 'condition' : '! grep -q \'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${UC_DIR}/lib\' ~/.bashrc'},
     #             {'cmd' : 'echo \'export PATH=${UC_DIR}/bin:${UC_DIR}/scripts:${PATH}\' >> ~/.bashrc', 'condition' : '! grep -q \'export PATH=${UC_DIR}/bin:${UC_DIR}/scripts:${PATH}\' ~/.bashrc'}],
     "apt": {
-        'pkgs': ['vim', 'build-essential', 'git', 'ssh', 'cmake', 'python3-dev', 'python3-pip', 'ruby-full'],
+        'pkgs': ['vim', 'build-essential', 'git', 'ssh', 'cmake', 'python-is-python3', 'python3-dev', 'python3-pip', 'ruby-full', "libosmium2-dev", "libtinyxml2-dev"],
     },
 }
 

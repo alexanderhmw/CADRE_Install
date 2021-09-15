@@ -13,7 +13,8 @@ config = {
     "ldpath": ['/opt/Qt/{}/gcc_64/lib'.format(ConfigFunc.version_str(version_list, "."))],
     "postcmds": [
         {'cmd': "qtchooser -install qt5-opt /opt/Qt/{}/gcc_64/bin/qmake".format(ConfigFunc.version_str(version_list, ".")), 'condition': "! (qtchooser -l | grep -q 'qt5-opt')"},
-        {'cmd': "sudo echo \"/opt/Qt/{}/gcc_64/bin\n/opt/Qt/{}/gcc_64/lib\" > /usr/share/qtchooser/qt5-x86_64-linux-gnu.conf".format(ConfigFunc.version_str(version_list, "."), ConfigFunc.version_str(version_list, "."))}
+        {'cmd': "sudo echo \"/opt/Qt/{}/gcc_64/bin\n/opt/Qt/{}/gcc_64/lib\" > /usr/share/qtchooser/qt5-x86_64-linux-gnu.conf".format(ConfigFunc.version_str(version_list, "."), ConfigFunc.version_str(version_list, "."))},
+        {'cmd' : 'echo \'export PATH=${PATH}:/opt/Qt/Tools/QtCreator/bin\' >> ~/.bashrc', 'condition' : '! grep -q \'export PATH=${PATH}:/opt/Qt/Tools/QtCreator/bin\' ~/.bashrc'},
     ]
 }
 
