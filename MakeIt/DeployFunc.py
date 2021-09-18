@@ -8,6 +8,7 @@ from zipfile import ZipFile
 import json
 from colorama import Fore, Back, Style
 import wget
+import ssl
 import pathlib
 
 
@@ -229,6 +230,7 @@ def pkgSource(root, name, url, file, type_name, patch, precmds, postcmds):
         if url is None:
             return False
         else:
+            ssl._create_default_https_context = ssl._create_unverified_context
             wget.download(url, pkg_path)
 
     if ['tar', 'gz', 'tar.gz', 'bz2', 'tar.xz', 'xz', 'zip'].count(type_name) > 0:
