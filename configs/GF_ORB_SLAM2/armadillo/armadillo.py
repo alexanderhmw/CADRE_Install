@@ -1,7 +1,7 @@
 from MakeIt import ConfigFunc
 
 name = "armadillo"
-version_list = [10, 7]
+version_list = [10, 8]
 subversion = 'x'
 
 config = {
