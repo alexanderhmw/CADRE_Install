@@ -12,7 +12,7 @@ config = {
     #             {'cmd' : 'echo \'export PATH=${UC_DIR}/bin:${UC_DIR}/scripts:${PATH}\' >> ~/.bashrc', 'condition' : '! grep -q \'export PATH=${UC_DIR}/bin:${UC_DIR}/scripts:${PATH}\' ~/.bashrc'}],
     "apt": {
         'pkgs': ['vim', 'build-essential', 'git', 'ssh', 'cmake', 'python-is-python3', 'python3-dev', 'python3-pip', 'ruby-full', "libosmium2-dev", "libtinyxml2-dev"],
-        'pips': ['scons']
+        'pips': ['tensorflow-gpu', 'numpy', 'opencv-python', 'opencv-contrib-python', 'easydict', 'matplotlib', 'scons']
     },
 }
 
