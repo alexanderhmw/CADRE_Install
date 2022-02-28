@@ -5,10 +5,15 @@ import runpy
 from MakeIt import DeployFunc
 import pathlib
 
+cadre_tartanracing_path = None
+
 if __name__ == "__main__":
-    # parser = argparse.ArgumentParser(description="Install CADRE")
-    # parser.add_argument("cadre_path", type=str, help="path to tartanracing")
-    # args = parser.parse_args()
+    parser = argparse.ArgumentParser(description="Install CADRE")
+    parser.add_argument("cadre_tartanracing_path", type=str, help="path to cadre/tartanracing")
+    args = parser.parse_args()
+
+    cadre_tartanracing_path = args.cadre_tartanracing_path
+    assert os.path.exists(cadre_tartanracing_path), print("cadre_tartanracing_path {} does not exist".format(cadre_tartanracing_path))
 
     root_path = os.path.abspath(pathlib.Path(__file__).parent.resolve())
     configs_path = os.path.abspath(os.path.join(root_path, "./configs"))
